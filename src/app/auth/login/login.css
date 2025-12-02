@@ -1,0 +1,30 @@
+/*fondo gris cubra toda la pantalla */
+:host {
+  display: block;
+  height: 100vh;
+  background-color: #f0f2f5; /* Un gris muy suave */
+}
+
+/* Retoques a la tarjeta de Bootstrap */
+.card {
+  border: none; /* Quitamos el borde gris por defecto */
+  border-radius: 15px; /* Bordes más redondeados y modernos */
+}
+
+/* El contenedor principal */
+.container {
+  height: 100%; /* Asegura el centrado vertical */
+}
+
+/* Un toque extra al botón */
+.btn-primary {
+  padding: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Si hay error, que se vea negrita */
+.alert-danger {
+  font-size: 0.9rem;
+  font-weight: 500;
+}

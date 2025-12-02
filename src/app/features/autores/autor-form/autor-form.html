@@ -1,0 +1,65 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">{{ isEditing ? 'Editar Autor' : 'Nuevo Autor' }}</h3>
+        </div>
+
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre del Autor</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                [(ngModel)]="autor.nombre"
+                name="nombre"
+                placeholder="Ej: Gabriel García Márquez"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="urlFoto" class="form-label"
+                >URL de la Foto (Opcional)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="urlFoto"
+                [(ngModel)]="autor.urlFoto"
+                name="urlFoto"
+                placeholder="https://..."
+              />
+              <div class="form-text">
+                Pega aquí un enlace directo a una imagen .jpg o .png
+              </div>
+            </div>
+
+            <div class="mb-3 text-center" *ngIf="autor.urlFoto">
+              <label class="d-block mb-2">Vista Previa:</label>
+              <img
+                [src]="autor.urlFoto"
+                alt="Vista previa"
+                class="img-thumbnail rounded-circle"
+                style="width: 100px; height: 100px; object-fit: cover"
+                onerror="this.style.display='none'"
+              />
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <a routerLink="/autores" class="btn btn-secondary me-2"
+                >Cancelar</a
+              >
+              <button type="submit" class="btn btn-primary">
+                {{ isEditing ? 'Actualizar' : 'Guardar' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
