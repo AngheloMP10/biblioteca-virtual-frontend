@@ -1,1 +1,124 @@
-<p>libro-form works!</p>
+<div class="container mt-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">{{ isEditing ? 'Editar Libro' : 'Nuevo Libro' }}</h3>
+        </div>
+
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="titulo" class="form-label">Título del Libro</label>
+              <input
+                type="text"
+                class="form-control"
+                id="titulo"
+                [(ngModel)]="libro.titulo"
+                name="titulo"
+                required
+              />
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="anio" class="form-label">Año de Publicación</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="anio"
+                  [(ngModel)]="libro.anioPublicacion"
+                  name="anio"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="disponible" class="form-label">Estado</label>
+                <select
+                  class="form-select"
+                  id="disponible"
+                  [(ngModel)]="libro.disponible"
+                  name="disponible"
+                >
+                  <option [ngValue]="true">Disponible</option>
+                  <option [ngValue]="false">Agotado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="genero" class="form-label">Género Literario</label>
+              <select
+                class="form-select"
+                id="genero"
+                [(ngModel)]="selectedGeneroId"
+                name="genero"
+                required
+              >
+                <option [ngValue]="null" disabled>
+                  -- Selecciona un género --
+                </option>
+                <option *ngFor="let g of listaGeneros" [value]="g.id">
+                  {{ g.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="autores" class="form-label">Autor(es)</label>
+              <select
+                multiple
+                class="form-select"
+                id="autores"
+                [(ngModel)]="selectedAutoresIds"
+                name="autores"
+                style="height: 120px"
+                required
+              >
+                <option *ngFor="let a of listaAutores" [value]="a.id">
+                  {{ a.nombre }}
+                </option>
+              </select>
+              <div class="form-text text-muted">
+                💡 Mantén presionada la tecla <strong>Ctrl</strong> para
+                seleccionar más de un autor.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="portada" class="form-label"
+                >URL Portada (Opcional)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="portada"
+                [(ngModel)]="libro.portada"
+                name="portada"
+                placeholder="https://..."
+              />
+            </div>
+
+            <div class="mb-3 text-center" *ngIf="libro.portada">
+              <img
+                [src]="libro.portada"
+                class="img-thumbnail"
+                style="height: 150px"
+                onerror="this.style.display='none'"
+              />
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <a routerLink="/libros" class="btn btn-secondary me-2"
+                >Cancelar</a
+              >
+              <button type="submit" class="btn btn-primary">
+                {{ isEditing ? 'Actualizar' : 'Guardar' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

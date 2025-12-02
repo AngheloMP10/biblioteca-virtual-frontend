@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { AutorService } from '../../../core/services/autor'; // Verifica la ruta
+import { AutorService } from '../../../core/services/autor';
 import { Autor } from '../../../core/models/autor';
 
 @Component({
@@ -28,7 +28,7 @@ export class AutorFormComponent implements OnInit {
   isEditing: boolean = false;
 
   ngOnInit(): void {
-    // Verificamos si la URL tiene un ID (ej. /autores/editar/5)
+    // Verificamos si la URL tiene un ID
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {

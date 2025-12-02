@@ -21,17 +21,17 @@ export class AutorService {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
   }
 
-  // --- OBTENER POR ID (Lo usarás para Editar) ---
+  // --- OBTENER POR ID (Editar) ---
   getById(id: number): Observable<Autor> {
     return this.http.get<Autor>(`${this.apiUrl}/${id}`);
   }
 
-  // --- CREAR (Lo usarás en el Formulario) ---
+  // --- CREAR (Formulario) ---
   create(autor: Autor): Observable<Autor> {
     return this.http.post<Autor>(this.apiUrl, autor);
   }
 
-  // --- ACTUALIZAR (Lo usarás en el Formulario) ---
+  // --- ACTUALIZAR (Formulario) ---
   update(id: number, autor: Autor): Observable<Autor> {
     return this.http.put<Autor>(`${this.apiUrl}/${id}`, autor);
   }

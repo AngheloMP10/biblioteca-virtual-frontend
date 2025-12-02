@@ -15,7 +15,7 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  // CORRECCIÓN 2: Nombres estándar de Angular (asegúrate que tus archivos se llamen así)
+  // Nombres estándar de Angular
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -44,7 +44,7 @@ export class LoginComponent {
 
     const { username, password } = this.loginForm.value;
 
-    // CORRECCIÓN 3: Pasar un objeto, no variables sueltas
+    // Pasar un objeto, no variables sueltas
     const loginData = {
       username: username!,
       password: password!,

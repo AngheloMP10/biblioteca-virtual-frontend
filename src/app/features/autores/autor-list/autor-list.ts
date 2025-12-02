@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-// Asegúrate de que la ruta coincida con el nombre de tu archivo (autor.ts o autor.service.ts)
 import { AutorService } from '../../../core/services/autor';
 import { Autor } from '../../../core/models/autor';
 

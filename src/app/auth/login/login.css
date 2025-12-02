@@ -2,18 +2,18 @@
 :host {
   display: block;
   height: 100vh;
-  background-color: #f0f2f5; /* Un gris muy suave */
+  background-color: #f0f2f5; 
 }
 
 /* Retoques a la tarjeta de Bootstrap */
 .card {
-  border: none; /* Quitamos el borde gris por defecto */
-  border-radius: 15px; /* Bordes más redondeados y modernos */
+  border: none; 
+  border-radius: 15px; 
 }
 
 /* El contenedor principal */
 .container {
-  height: 100%; /* Asegura el centrado vertical */
+  height: 100%; 
 }
 
 /* Un toque extra al botón */

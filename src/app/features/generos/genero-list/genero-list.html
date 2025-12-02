@@ -1,1 +1,47 @@
-<p>genero-list works!</p>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista de Géneros</h2>
+    <a routerLink="/generos/nuevo" class="btn btn-primary"> + Nuevo Género </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 100px">ID</th>
+            <th>Nombre</th>
+            <th class="text-end" style="width: 200px">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let genero of generos">
+            <td>{{ genero.id }}</td>
+            <td class="fw-bold">{{ genero.nombre }}</td>
+
+            <td class="text-end">
+              <a
+                [routerLink]="['/generos/editar', genero.id]"
+                class="btn btn-warning btn-sm me-2"
+              >
+                ✏️ Editar
+              </a>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="eliminarGenero(genero.id)"
+              >
+                🗑️ Eliminar
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="generos.length === 0">
+            <td colspan="3" class="text-center py-3">
+              No hay géneros registrados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
