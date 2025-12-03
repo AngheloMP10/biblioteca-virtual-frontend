@@ -1,1 +1,73 @@
-<p>registro works!</p>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow p-4" style="width: 400px">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Crear Cuenta</h2>
+
+      <div
+        *ngIf="mensajeError"
+        class="alert alert-danger text-center"
+        role="alert"
+      >
+        {{ mensajeError }}
+      </div>
+
+      <div
+        *ngIf="isSuccess"
+        class="alert alert-success text-center"
+        role="alert"
+      >
+        ¡Usuario creado con éxito! <br />
+        Redirigiendo al login...
+      </div>
+
+      <form
+        [formGroup]="registroForm"
+        (ngSubmit)="onSubmit()"
+        *ngIf="!isSuccess"
+      >
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de Usuario</label>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            formControlName="username"
+            placeholder="Elige un usuario"
+            [ngClass]="{ 'is-invalid': registroForm.get('username')?.invalid && registroForm.get('username')?.touched }"
+          />
+          <div class="invalid-feedback">Mínimo 4 caracteres.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Crea una contraseña"
+            [ngClass]="{ 'is-invalid': registroForm.get('password')?.invalid && registroForm.get('password')?.touched }"
+          />
+          <div class="invalid-feedback">Mínimo 4 caracteres.</div>
+        </div>
+
+        <div class="d-grid">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="registroForm.invalid"
+          >
+            Registrarse
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-3 text-center">
+        <small
+          >¿Ya tienes cuenta?
+          <a routerLink="/auth/login">Inicia Sesión aquí</a></small
+        >
+      </div>
+    </div>
+  </div>
+</div>

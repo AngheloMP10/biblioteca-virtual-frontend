@@ -24,7 +24,9 @@ export class AuthService {
 
   // ---- REGISTER ----
   register(usuario: AuthRequest): Observable<any> {
-    return this.http.post(`${this.API_URL}/register`, usuario);
+    return this.http.post(`${this.API_URL}/register`, usuario, {
+      responseType: 'text',
+    });
   }
 
   // ---- Guarda token y datos de usuario ----

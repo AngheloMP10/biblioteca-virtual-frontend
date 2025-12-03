@@ -1,0 +1,75 @@
+<div class="container mt-4 mb-5">
+  <h2 class="mb-4 text-center">Catálogo de Libros</h2>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!loading">
+    <div class="col" *ngFor="let libro of libros">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="text-center bg-light p-3">
+          <img
+            *ngIf="libro.portada"
+            [src]="libro.portada"
+            class="card-img-top shadow"
+            alt="Portada"
+            style="max-height: 250px; width: auto; object-fit: cover"
+          />
+
+          <div
+            *ngIf="!libro.portada"
+            class="d-flex align-items-center justify-content-center"
+            style="height: 250px"
+          >
+            <span style="font-size: 5rem">📘</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="mb-2">
+            <span class="badge bg-info text-dark"
+              >{{ libro.genero?.nombre || 'General' }}</span
+            >
+            <span
+              class="badge ms-2"
+              [ngClass]="libro.disponible ? 'bg-success' : 'bg-danger'"
+            >
+              {{ libro.disponible ? 'Disponible' : 'Agotado' }}
+            </span>
+          </div>
+
+          <h5 class="card-title fw-bold">{{ libro.titulo }}</h5>
+
+          <p class="card-text text-muted">
+            <small
+              >Por:
+              <span *ngFor="let autor of libro.autores; let last=last">
+                {{ autor.nombre }}<span *ngIf="!last">, </span>
+              </span>
+            </small>
+          </p>
+
+          <p class="card-text">
+            <strong>Año:</strong> {{ libro.anioPublicacion || 'N/A' }}
+          </p>
+        </div>
+
+        <div class="card-footer bg-white border-0 pb-3">
+          <button
+            class="btn btn-outline-primary w-100"
+            [disabled]="!libro.disponible"
+          >
+            {{ libro.disponible ? 'Solicitar Préstamo' : 'No Disponible' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && libros.length === 0" class="text-center mt-5">
+    <p class="text-muted">No hay libros disponibles en este momento.</p>
+  </div>
+</div>

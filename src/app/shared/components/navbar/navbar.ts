@@ -5,28 +5,34 @@ import { TokenStorageService } from '../../../core/services/token-storage.servic
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })
-
 export class NavbarComponent {
   private tokenStorage = inject(TokenStorageService);
-  public router = inject(Router); 
+  public router = inject(Router);
 
   usuarioNombre: string = '';
   rol: string = '';
 
-  // El menú solo se ve si: Hay token Y la ruta NO es login
   get isLoggedIn(): boolean {
     const hayToken = !!this.tokenStorage.getToken();
     const esPaginaLogin = this.router.url.includes('/auth/login');
+    const esPaginaRegistro = this.router.url.includes('/auth/registro');
+    return hayToken && !esPaginaLogin && !esPaginaRegistro;
+  }
 
-    return hayToken && !esPaginaLogin;
+  get isAdmin(): boolean {
+    return this.rol === 'ROLE_ADMIN';
+  }
+
+  get isUser(): boolean {
+    return this.rol === 'ROLE_USER';
   }
 
   ngOnInit(): void {
-    // Cargamos los datos solo si el usuario realmente está dentro
     if (this.tokenStorage.getToken()) {
       const user = localStorage.getItem('username');
       const role = localStorage.getItem('role');
@@ -37,6 +43,7 @@ export class NavbarComponent {
 
   logout(): void {
     this.tokenStorage.signOut();
-    window.location.reload();
+    localStorage.clear();
+    this.router.navigate(['/auth/login']);
   }
 }

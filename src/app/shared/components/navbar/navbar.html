@@ -3,7 +3,9 @@
   *ngIf="isLoggedIn"
 >
   <div class="container">
-    <a class="navbar-brand" routerLink="/libros">BiblioVirtual</a>
+    <a class="navbar-brand" [routerLink]="isAdmin ? '/libros' : '/catalogo'">
+      📚 BiblioVirtual
+    </a>
 
     <button
       class="navbar-toggler"
@@ -16,20 +18,28 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/libros" routerLinkActive="active"
-            >Libros</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/autores" routerLinkActive="active"
-            >Autores</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/generos" routerLinkActive="active"
-            >Géneros</a
-          >
+        <ng-container *ngIf="isAdmin">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/libros" routerLinkActive="active">
+              📚 Libros
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/autores" routerLinkActive="active">
+              ✍️ Autores
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/generos" routerLinkActive="active">
+              🎭 Géneros
+            </a>
+          </li>
+        </ng-container>
+
+        <li class="nav-item" *ngIf="isUser">
+          <a class="nav-link" routerLink="/catalogo" routerLinkActive="active">
+            📖 Catálogo
+          </a>
         </li>
       </ul>
 
@@ -37,21 +47,29 @@
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
-            href="#"
             role="button"
             data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="cursor: pointer"
           >
             Hola, <strong>{{ usuarioNombre }}</strong>
           </a>
+
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <span class="dropdown-item-text text-muted">{{ rol }}</span>
+              <span class="dropdown-item-text text-muted small"
+                >Rol: {{ rol }}</span
+              >
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <button class="dropdown-item text-danger" (click)="logout()">
-                Cerrar Sesión
-              </button>
+              <a
+                class="dropdown-item text-danger"
+                (click)="logout()"
+                style="cursor: pointer"
+              >
+                🚪 Cerrar Sesión
+              </a>
             </li>
           </ul>
         </li>

@@ -15,13 +15,11 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  // Nombres estándar de Angular
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
 export class LoginComponent {
   mensajeError: string = '';
-
   loginForm!: FormGroup;
 
   constructor(
@@ -36,6 +34,11 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    // Sin borrar sesiones
+    // Solo lógica visual o de inicialización si fuera necesaria
+  }
+
   onSubmit() {
     if (this.loginForm.invalid) {
       this.mensajeError = 'Debe completar todos los campos';
@@ -44,7 +47,6 @@ export class LoginComponent {
 
     const { username, password } = this.loginForm.value;
 
-    // Pasar un objeto, no variables sueltas
     const loginData = {
       username: username!,
       password: password!,
@@ -52,21 +54,21 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (resp) => {
+        // Guardamos la sesión
         this.authService.saveSession(resp);
-        // Redirigimos a la lista de libros
-        this.router.navigate(['/libros']);
+
+        if (resp.role === 'ROLE_ADMIN') {
+          // Si es Admin
+          this.router.navigate(['/libros']);
+        } else {
+          // Si es User
+          this.router.navigate(['/catalogo']);
+        }
       },
       error: (err) => {
         console.error('Error login:', err);
         this.mensajeError = 'Usuario o contraseña incorrectos';
       },
     });
-  }
-
-  ngOnInit(): void {
-    // Si entro al login, me aseguro de que no haya sesiones viejas activas
-    if (this.tokenStorage.getToken()) {
-      this.tokenStorage.signOut();
-    }
   }
 }
