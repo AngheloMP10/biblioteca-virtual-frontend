@@ -14,9 +14,11 @@ export class NavbarComponent {
   private tokenStorage = inject(TokenStorageService);
   public router = inject(Router);
 
-  usuarioNombre: string = '';
-  rol: string = '';
+  // Ya no variables fijas
+  // usuarioNombre: string = '';
+  // rol: string = '';
 
+  // Getter dinámico para login
   get isLoggedIn(): boolean {
     const hayToken = !!this.tokenStorage.getToken();
     const esPaginaLogin = this.router.url.includes('/auth/login');
@@ -24,6 +26,19 @@ export class NavbarComponent {
     return hayToken && !esPaginaLogin && !esPaginaRegistro;
   }
 
+  // Getter dinámico para nombre
+  get usuarioNombre(): string {
+    if (!this.isLoggedIn) return '';
+    return localStorage.getItem('username') || 'Usuario';
+  }
+
+  // Getter dinámico para rol
+  get rol(): string {
+    if (!this.isLoggedIn) return '';
+    return localStorage.getItem('role') || '';
+  }
+
+  // Verifica el rol
   get isAdmin(): boolean {
     return this.rol === 'ROLE_ADMIN';
   }
@@ -32,14 +47,7 @@ export class NavbarComponent {
     return this.rol === 'ROLE_USER';
   }
 
-  ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
-      const user = localStorage.getItem('username');
-      const role = localStorage.getItem('role');
-      this.usuarioNombre = user || 'Usuario';
-      this.rol = role || '';
-    }
-  }
+  ngOnInit(): void {}
 
   logout(): void {
     this.tokenStorage.signOut();
