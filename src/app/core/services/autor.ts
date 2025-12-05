@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Autor } from '../models/autor'; // Asegúrate de que este modelo exista
+import { Autor } from '../models/autor';
 
 @Injectable({
   providedIn: 'root',

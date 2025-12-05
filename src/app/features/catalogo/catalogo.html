@@ -61,6 +61,7 @@
           <button
             class="btn btn-outline-primary w-100"
             [disabled]="!libro.disponible"
+            (click)="solicitarPrestamo(libro)"
           >
             {{ libro.disponible ? 'Solicitar Préstamo' : 'No Disponible' }}
           </button>

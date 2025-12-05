@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LibroService } from '../../core/services/libro';
+import { PrestamoService } from '../../core/services/prestamo';
 import { Libro } from '../../core/models/libro';
 
 @Component({
@@ -12,6 +13,8 @@ import { Libro } from '../../core/models/libro';
 })
 export class CatalogoComponent implements OnInit {
   private libroService = inject(LibroService);
+  private prestamoService = inject(PrestamoService);
+
   libros: Libro[] = [];
   loading: boolean = true;
 
@@ -28,6 +31,26 @@ export class CatalogoComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
+      },
+    });
+  }
+
+  solicitarPrestamo(libro: Libro): void {
+    if (
+      !confirm(`¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`)
+    ) {
+      return;
+    }
+
+    this.prestamoService.solicitar(libro.id).subscribe({
+      next: () => {
+        alert(
+          '✅ Solicitud enviada con éxito. El administrador evaluará tu petición.'
+        );
+      },
+      error: (err) => {
+        console.error(err);
+        alert(err?.error || '❌ Error al solicitar el préstamo');
       },
     });
   }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { publicGuard } from './core/guards/public-guard';
+import { adminGuard } from './core/guards/admin-guard';
 
 //Login
 import { LoginComponent } from './auth/login/login';
@@ -36,43 +37,56 @@ export const routes: Routes = [
     canActivate: [authGuard], // Deben estar logueados
   },
 
-  // Libros (Protegidas con authGuard) ---
-  { path: 'libros', component: LibroListComponent, canActivate: [authGuard] },
+  // Ruta para admin (Protegidas con authGuard y adminGuard)
+  // Libros
+  {
+    path: 'libros',
+    component: LibroListComponent,
+    canActivate: [authGuard, adminGuard],
+  },
   {
     path: 'libros/nuevo',
     component: LibroFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: 'libros/editar/:id',
     component: LibroFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
 
-  // Autores (Protegidas)
-  { path: 'autores', component: AutorListComponent, canActivate: [authGuard] },
+  // Autores
+  {
+    path: 'autores',
+    component: AutorListComponent,
+    canActivate: [authGuard, adminGuard],
+  },
   {
     path: 'autores/nuevo',
     component: AutorFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: 'autores/editar/:id',
     component: AutorFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
 
-  // Géneros (Protegidas)
-  { path: 'generos', component: GeneroListComponent, canActivate: [authGuard] },
+  // Géneros
+  {
+    path: 'generos',
+    component: GeneroListComponent,
+    canActivate: [authGuard, adminGuard],
+  },
   {
     path: 'generos/nuevo',
     component: GeneroFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: 'generos/editar/:id',
     component: GeneroFormComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
 
   // ERROR 404
