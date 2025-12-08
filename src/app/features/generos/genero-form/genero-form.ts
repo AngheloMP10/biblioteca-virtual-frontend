@@ -67,9 +67,7 @@ export class GeneroFormComponent implements OnInit {
         },
       });
     } else {
-      // --- CREAR (POST) ---
-
-      // Creamos objeto limpio SIN ID para evitar error de Hibernate
+      //Crea
       const generoParaGuardar = {
         nombre: this.genero.nombre,
       };

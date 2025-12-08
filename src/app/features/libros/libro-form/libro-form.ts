@@ -28,7 +28,7 @@ export class LibroFormComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  // Listas para los desplegables (Selects)
+  // Listas para los desplegables
   listaAutores: Autor[] = [];
   listaGeneros: Genero[] = [];
 
@@ -41,7 +41,7 @@ export class LibroFormComponent implements OnInit {
     id: 0,
     titulo: '',
     portada: '',
-    anioPublicacion: new Date().getFullYear(), // Año actual por defecto
+    anioPublicacion: new Date().getFullYear(),
     disponible: true,
     genero: { id: 0, nombre: '' },
     autores: [],
@@ -50,10 +50,10 @@ export class LibroFormComponent implements OnInit {
   isEditing: boolean = false;
 
   ngOnInit(): void {
-    // 1. Cargar las listas necesarias (Autores y Géneros)
+    // Cargar las listas necesarias (Autores y Géneros)
     this.cargarListas();
 
-    // 2. Verificar si es edición
+    // Verificar si es edición
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditing = true;
@@ -80,14 +80,13 @@ export class LibroFormComponent implements OnInit {
       next: (data) => {
         this.libro = data;
 
-        // --- MAPEO IMPORTANTE ---
-        // Al editar, debemos decirle a los Selects qué valores marcar
+        // Mapeo
         if (this.libro.genero) {
           this.selectedGeneroId = this.libro.genero.id;
         }
 
         if (this.libro.autores) {
-          // Extraemos solo los IDs de los autores del libro
+          // Extraemos IDs de los autores del libro
           this.selectedAutoresIds = this.libro.autores.map((a) => a.id);
         }
       },
@@ -110,20 +109,20 @@ export class LibroFormComponent implements OnInit {
       return;
     }
 
-    // --- PREPARAR EL OBJETO PARA EL BACKEND ---
-    // IDs simples en los objetos que espera Spring Boot
+    // Para el Backend
+    // IDs para Spring Boot
     const libroParaEnviar = {
-      ...this.libro, 
+      ...this.libro,
       genero: { id: this.selectedGeneroId },
       autores: this.selectedAutoresIds.map((id) => ({ id: Number(id) })),
     };
 
-    // Si es CREAR, eliminamos el ID para evitar errores de Hibernate
+    // Si es crear, eliminamos el ID para evitar errores de Hibernate
     if (!this.isEditing) {
       delete (libroParaEnviar as any).id;
     }
 
-    // --- ENVIAR ---
+    // Enviar
     if (this.isEditing) {
       this.libroService.update(this.libro.id, libroParaEnviar).subscribe({
         next: () => {

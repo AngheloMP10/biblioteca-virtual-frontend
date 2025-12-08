@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GeneroForm } from './genero-form';
+import { GeneroFormComponent } from './genero-form';
 
 describe('GeneroForm', () => {
-  let component: GeneroForm;
-  let fixture: ComponentFixture<GeneroForm>;
+  let component: GeneroFormComponent;
+  let fixture: ComponentFixture<GeneroFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GeneroForm]
-    })
-    .compileComponents();
+      imports: [GeneroFormComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(GeneroForm);
+    fixture = TestBed.createComponent(GeneroFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

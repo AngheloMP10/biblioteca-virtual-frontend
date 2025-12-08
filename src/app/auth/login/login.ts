@@ -34,10 +34,7 @@ export class LoginComponent {
     });
   }
 
-  ngOnInit(): void {
-    // Sin borrar sesiones
-    // Solo lógica visual o de inicialización si fuera necesaria
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -54,7 +51,7 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (resp) => {
-        // Guardamos la sesión
+        // Guardar sesíon
         this.authService.saveSession(resp);
 
         if (resp.role === 'ROLE_ADMIN') {

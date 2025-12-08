@@ -6,12 +6,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenStorage = inject(TokenStorageService);
   const token = tokenStorage.getToken();
 
-  // Si no hay token, continuamos sin modificar la petición
   if (!token) {
     return next(req);
   }
 
-  // Añadir el token a la petición
+  // Añade el token a la petición
   const clonedRequest = req.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,

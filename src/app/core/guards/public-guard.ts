@@ -6,15 +6,15 @@ export const publicGuard: CanActivateFn = (route, state) => {
   const tokenStorage = inject(TokenStorageService);
   const router = inject(Router);
 
-  // Obtenemos el token
+  // Obtiene el token
   const token = tokenStorage.getToken();
 
   // Si el usuario está logueado
   if (token) {
-    // Obtenemos el rol guardado en localStorage
+    // Obtiene el rol guardado en localStorage
     const role = localStorage.getItem('role');
 
-    // Redirección inteligente
+    // Redirección
     if (role === 'ROLE_ADMIN') {
       router.navigate(['/libros']);
     } else {
@@ -24,6 +24,6 @@ export const publicGuard: CanActivateFn = (route, state) => {
     return false; // bloquea acceso a /auth/login
   }
 
-  // Si no tiene token, permite acceso a login/registro
+  // Permite acceso a login/registro
   return true;
 };

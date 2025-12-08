@@ -7,7 +7,7 @@ import { Autor } from '../../../core/models/autor';
 
 @Component({
   selector: 'app-autor-form',
-  imports: [CommonModule, FormsModule, RouterLink], // Importamos RouterLink para el botón cancelar
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './autor-form.html',
   styleUrls: ['./autor-form.css'],
 })
@@ -24,19 +24,18 @@ export class AutorFormComponent implements OnInit {
     urlFoto: '',
   };
 
-  // Bandera para saber si estamos editando o creando
   isEditing: boolean = false;
 
   ngOnInit(): void {
-    // Verificamos si la URL tiene un ID
+    // Verifica si la URL tiene un ID
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
-      // MODO EDICIÓN
+      // Edita
       this.isEditing = true;
       this.cargarAutor(Number(id));
     } else {
-      // MODO CREACIÓN
+      // Crea
       this.isEditing = false;
     }
   }
@@ -45,7 +44,6 @@ export class AutorFormComponent implements OnInit {
     this.autorService.getById(id).subscribe({
       next: (data) => {
         this.autor = data;
-        // Aseguramos que urlFoto no sea null para evitar errores en el input
         if (!this.autor.urlFoto) this.autor.urlFoto = '';
       },
       error: (err) => console.error('Error al cargar autor', err),
@@ -53,14 +51,14 @@ export class AutorFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Validación básica
+    // Validación
     if (!this.autor.nombre.trim()) {
       alert('El nombre es obligatorio');
       return;
     }
 
     if (this.isEditing) {
-      // --- MODO EDICIÓN (PUT) ---
+      // Edita
       this.autorService.update(this.autor.id, this.autor).subscribe({
         next: () => {
           alert('Autor actualizado correctamente');
@@ -72,13 +70,12 @@ export class AutorFormComponent implements OnInit {
         },
       });
     } else {
-      // --- MODO CREACIÓN (POST) ---
+      // Crea
       const autorParaGuardar = {
         nombre: this.autor.nombre,
         urlFoto: this.autor.urlFoto,
       };
 
-      // Usamos 'as Autor' o 'any' para que TypeScript no se queje de que falta el ID
       this.autorService.create(autorParaGuardar as any).subscribe({
         next: () => {
           alert('Autor creado correctamente');

@@ -1,29 +1,25 @@
-/*fondo gris cubra toda la pantalla */
+/*fondo gris*/
 :host {
   display: block;
   height: 100vh;
-  background-color: #f0f2f5; 
+  background-color: #f0f2f5;
 }
 
-/* Retoques a la tarjeta de Bootstrap */
 .card {
-  border: none; 
-  border-radius: 15px; 
+  border: none;
+  border-radius: 15px;
 }
 
-/* El contenedor principal */
 .container {
-  height: 100%; 
+  height: 100%;
 }
 
-/* Un toque extra al botón */
 .btn-primary {
   padding: 10px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
-/* Si hay error, que se vea negrita */
 .alert-danger {
   font-size: 0.9rem;
   font-weight: 500;

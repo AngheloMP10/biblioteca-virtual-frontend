@@ -24,7 +24,7 @@ export class AutorListComponent implements OnInit {
     this.autorService.getAll().subscribe({
       next: (data) => {
         this.autores = data;
-        console.log('Autores cargados:', data); // Útil para depurar
+        console.log('Autores cargados:', data);
       },
       error: (err) => {
         console.error('Error al cargar autores:', err);

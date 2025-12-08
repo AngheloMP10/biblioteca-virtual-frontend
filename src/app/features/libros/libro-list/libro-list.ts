@@ -8,7 +8,6 @@ import { Libro } from '../../../core/models/libro';
   selector: 'app-libro-list',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  // Mantenemos tu convención de nombres cortos
   templateUrl: './libro-list.html',
   styleUrls: ['./libro-list.css'],
 })

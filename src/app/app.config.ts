@@ -14,7 +14,6 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 
-// IMPORTAR interceptor con nombre correcto
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {

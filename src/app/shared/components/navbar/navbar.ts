@@ -14,10 +14,6 @@ export class NavbarComponent {
   private tokenStorage = inject(TokenStorageService);
   public router = inject(Router);
 
-  // Ya no variables fijas
-  // usuarioNombre: string = '';
-  // rol: string = '';
-
   // Getter dinámico para login
   get isLoggedIn(): boolean {
     const hayToken = !!this.tokenStorage.getToken();

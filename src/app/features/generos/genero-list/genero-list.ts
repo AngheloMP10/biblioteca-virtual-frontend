@@ -37,13 +37,13 @@ export class GeneroListComponent implements OnInit {
     if (confirm('¿Estás seguro de eliminar este género?')) {
       this.generoService.delete(id).subscribe({
         next: () => {
-          // Si todo sale bien, recargamos la lista
+          // Recarga la lista
           this.cargarGeneros();
           alert('Género eliminado correctamente');
         },
         error: (err) => {
           console.error('Error al eliminar:', err);
-          // Igual que con autores, mostramos advertencia si tiene libros vinculados
+          // Advertencia
           alert(
             'No se pudo eliminar el género. Es probable que existan libros asociados a él.'
           );
