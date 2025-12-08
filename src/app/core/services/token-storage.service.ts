@@ -8,23 +8,23 @@ const TOKEN_KEY = 'auth-token';
 export class TokenStorageService {
   constructor() {}
 
-  // ---- Guarda token ----
+  // Guarda token
   saveToken(token: string): void {
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
   }
 
-  // ---- Obtiene token ----
+  // Obtiene token
   getToken(): string | null {
     return window.localStorage.getItem(TOKEN_KEY);
   }
 
-  // ---- Elimina token ----
+  // Elimina token
   signOut(): void {
     window.localStorage.removeItem(TOKEN_KEY);
   }
 
-  // ---- Verifica si estás logeado ----
+  // Verifica si estás logeado
   isLoggedIn(): boolean {
     return this.getToken() !== null;
   }

@@ -1,17 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PrestamoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/prestamos';
+  private apiUrl = `${environment.apiUrl}/prestamos`;
 
-  // --- SOLICITAR PRÉSTAMO ---
+  // SOLICITAR PRÉSTAMO
   solicitar(libroId: number): Observable<any> {
-    // No enviamos body -> el backend saca el usuario del token
     return this.http.post(
       `${this.apiUrl}/solicitar/${libroId}`,
       {},
@@ -19,12 +19,12 @@ export class PrestamoService {
     );
   }
 
-  // --- LISTAR TODOS (ADMIN) ---
+  // LISTAR TODOS (ADMIN)
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/todos`);
   }
 
-  // --- MIS PRÉSTAMOS (USER) ---
+  // MIS PRÉSTAMOS (USER)
   getMisPrestamos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/mios`);
   }

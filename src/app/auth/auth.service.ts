@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from '../core/services/token-storage.service';
 import { AuthResponse, AuthRequest } from '../core/models/auth.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // puerto (8080)
-  private API_URL = 'http://localhost:8080/auth';
+  // puerto (8080) URL desde environment
+  private API_URL = `${environment.apiUrl}/auth`;
 
   constructor(
     private http: HttpClient,
