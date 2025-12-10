@@ -15,6 +15,7 @@ import { AutorListComponent } from './features/autores/autor-list/autor-list';
 import { AutorFormComponent } from './features/autores/autor-form/autor-form';
 import { GeneroListComponent } from './features/generos/genero-list/genero-list';
 import { GeneroFormComponent } from './features/generos/genero-form/genero-form';
+import { PrestamoListComponent } from './features/prestamos/prestamo-list/prestamo-list';
 
 export const routes: Routes = [
   // Redirección inicial al login
@@ -86,6 +87,13 @@ export const routes: Routes = [
   {
     path: 'generos/editar/:id',
     component: GeneroFormComponent,
+    canActivate: [authGuard, adminGuard],
+  },
+
+  // Prestamos
+  {
+    path: 'prestamos',
+    component: PrestamoListComponent,
     canActivate: [authGuard, adminGuard],
   },
 

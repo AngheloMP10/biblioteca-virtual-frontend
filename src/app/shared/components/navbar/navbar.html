@@ -18,24 +18,38 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
+        <!-- ADMIN -->
         <ng-container *ngIf="isAdmin">
           <li class="nav-item">
             <a class="nav-link" routerLink="/libros" routerLinkActive="active">
               📚 Libros
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" routerLink="/autores" routerLinkActive="active">
               ✍️ Autores
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" routerLink="/generos" routerLinkActive="active">
               🎭 Géneros
             </a>
           </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/prestamos"
+              routerLinkActive="active"
+            >
+              🛎️ Solicitudes
+            </a>
+          </li>
         </ng-container>
 
+        <!-- USER -->
         <li class="nav-item" *ngIf="isUser">
           <a class="nav-link" routerLink="/catalogo" routerLinkActive="active">
             📖 Catálogo
@@ -57,9 +71,9 @@
 
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <span class="dropdown-item-text text-muted small"
-                >Rol: {{ rol }}</span
-              >
+              <span class="dropdown-item-text text-muted small">
+                Rol: {{ rol }}
+              </span>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
