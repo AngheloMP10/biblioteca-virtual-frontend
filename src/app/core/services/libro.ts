@@ -8,33 +8,36 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class LibroService {
+  // Inyecta HttpClient
   private http = inject(HttpClient);
+
+  // URL base de la API
   private apiUrl = `${environment.apiUrl}/libros`;
 
-  // --- OBTENER TODOS ---
+  // Obtiene todos los libros
   getAll(): Observable<Libro[]> {
     return this.http.get<Libro[]>(this.apiUrl);
   }
 
-  // --- OBTENER POR ID (Para Editar) ---
+  // Obtiene un libro por su ID
   getById(id: number): Observable<Libro> {
     return this.http.get<Libro>(`${this.apiUrl}/${id}`);
   }
 
-  // --- CREAR ---
+  // Crea un nuevo libro
   // El objeto 'libro' debe incluir { genero: {...}, autores: [...] }
   create(libro: any): Observable<Libro> {
     return this.http.post<Libro>(this.apiUrl, libro);
   }
 
-  // --- ACTUALIZAR ---
+  // Actualiza un libro existente
   update(id: number, libro: any): Observable<Libro> {
     return this.http.put<Libro>(`${this.apiUrl}/${id}`, libro);
   }
 
-  // --- ELIMINAR ---
+  // Elimina un libro por su ID
+  // responseType 'text' para manejar respuestas vacías o texto plano
   delete(id: number): Observable<any> {
-    // Usamos 'text' para que Angular no falle si la respuesta viene vacía o es texto plano
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
   }
 }

@@ -8,30 +8,34 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class GeneroService {
+  // Inyecta HttpClient
   private http = inject(HttpClient);
+
+  // URL base de la API
   private apiUrl = `${environment.apiUrl}/generos`;
 
-  // OBTENER TODOS
+  // Obtiene todos los géneros
   getAll(): Observable<Genero[]> {
     return this.http.get<Genero[]>(this.apiUrl);
   }
 
-  // OBTENER POR ID (Para Editar)
+  // Obtiene un género por su ID
   getById(id: number): Observable<Genero> {
     return this.http.get<Genero>(`${this.apiUrl}/${id}`);
   }
 
-  // CREAR
+  // Crea un nuevo género
   create(genero: Genero): Observable<Genero> {
     return this.http.post<Genero>(this.apiUrl, genero);
   }
 
-  // ACTUALIZAR
+  // Actualiza un género existente
   update(id: number, genero: Genero): Observable<Genero> {
     return this.http.put<Genero>(`${this.apiUrl}/${id}`, genero);
   }
 
-  // ELIMINAR
+  // Elimina un género por su ID
+  // responseType 'text' para aceptar respuesta string del backend
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
   }

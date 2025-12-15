@@ -8,10 +8,14 @@ import { Prestamo } from '../models/prestamo';
   providedIn: 'root',
 })
 export class PrestamoService {
+  // Inyecta HttpClient
   private http = inject(HttpClient);
+
+  // URL base de la API
   private apiUrl = `${environment.apiUrl}/prestamos`;
 
-  // SOLICITAR PRÉSTAMO
+  // Solicita un préstamo de un libro específico
+  // responseType 'text' para manejar respuesta vacía o texto plano
   solicitar(libroId: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/solicitar/${libroId}`,
@@ -20,17 +24,17 @@ export class PrestamoService {
     );
   }
 
-  // LISTAR TODOS (ADMIN)
+  // Obtiene todos los préstamos (solo para admin)
   getAll(): Observable<Prestamo[]> {
     return this.http.get<Prestamo[]>(`${this.apiUrl}/todos`);
   }
 
-  // MIS PRÉSTAMOS (USER)
+  // Obtiene los préstamos del usuario actual
   getMisPrestamos(): Observable<Prestamo[]> {
     return this.http.get<Prestamo[]>(`${this.apiUrl}/mios`);
   }
 
-  // APROBAR
+  // Aprueba un préstamo por ID
   aprobar(id: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/aprobar/${id}`,
@@ -39,7 +43,7 @@ export class PrestamoService {
     );
   }
 
-  // RECHAZAR
+  // Rechaza un préstamo por ID
   rechazar(id: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/rechazar/${id}`,
