@@ -8,6 +8,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { AlertService } from '../../core/services/alert';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -19,13 +20,12 @@ import { AuthService } from '../auth.service';
 })
 export class RegistroComponent {
   registroForm: FormGroup;
-  mensajeError: string = '';
-  isSuccess: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.registroForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
@@ -35,28 +35,32 @@ export class RegistroComponent {
 
   onSubmit() {
     if (this.registroForm.invalid) {
-      this.mensajeError = 'Por favor completa el formulario correctamente.';
+      this.alertService.error(
+        'Formulario inválido',
+        'Por favor completa el formulario correctamente.'
+      );
       return;
     }
 
     const { username, password } = this.registroForm.value;
-
     const registroData = { username, password };
 
     this.authService.register(registroData).subscribe({
-      next: (resp) => {
-        this.isSuccess = true;
-        this.mensajeError = '';
+      next: () => {
+        this.alertService.success(
+          '¡Bienvenido!',
+          'Usuario creado con éxito. Ahora inicia sesión.'
+        );
 
-        setTimeout(() => {
-          this.router.navigate(['/auth/login']);
-        }, 3000);
+        this.router.navigate(['/auth/login']);
       },
       error: (err) => {
         console.error('Error registro:', err);
-        this.mensajeError =
-          'Error al registrar. Es posible que el usuario ya exista.';
-        this.isSuccess = false;
+
+        this.alertService.error(
+          'Error',
+          'No se pudo registrar. Es posible que el usuario ya exista.'
+        );
       },
     });
   }

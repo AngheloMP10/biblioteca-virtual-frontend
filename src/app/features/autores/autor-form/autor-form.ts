@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AutorService } from '../../../core/services/autor';
+import { AlertService } from '../../../core/services/alert';
 import { Autor } from '../../../core/models/autor';
 
 @Component({
@@ -14,6 +15,7 @@ import { Autor } from '../../../core/models/autor';
 export class AutorFormComponent implements OnInit {
   // Inyección de dependencias
   private autorService = inject(AutorService);
+  private alertService = inject(AlertService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -46,14 +48,23 @@ export class AutorFormComponent implements OnInit {
         this.autor = data;
         if (!this.autor.urlFoto) this.autor.urlFoto = '';
       },
-      error: (err) => console.error('Error al cargar autor', err),
+      error: (err) => {
+        console.error('Error al cargar autor', err);
+        this.alertService.error(
+          'Error',
+          'No se pudo cargar la información del autor'
+        );
+      },
     });
   }
 
   onSubmit(): void {
     // Validación
     if (!this.autor.nombre.trim()) {
-      alert('El nombre es obligatorio');
+      this.alertService.error(
+        'Formulario inválido',
+        'El nombre del autor es obligatorio'
+      );
       return;
     }
 
@@ -61,12 +72,15 @@ export class AutorFormComponent implements OnInit {
       // Edita
       this.autorService.update(this.autor.id, this.autor).subscribe({
         next: () => {
-          alert('Autor actualizado correctamente');
+          this.alertService.success(
+            'Actualizado',
+            'Autor actualizado correctamente'
+          );
           this.router.navigate(['/autores']);
         },
         error: (err) => {
           console.error('Error al actualizar:', err);
-          alert('Error al actualizar el autor.');
+          this.alertService.error('Error', 'Error al actualizar el autor.');
         },
       });
     } else {
@@ -78,12 +92,15 @@ export class AutorFormComponent implements OnInit {
 
       this.autorService.create(autorParaGuardar as any).subscribe({
         next: () => {
-          alert('Autor creado correctamente');
+          this.alertService.success('Creado', 'Autor creado correctamente');
           this.router.navigate(['/autores']);
         },
         error: (err) => {
           console.error('Error al crear:', err);
-          alert('Error al crear el autor. Revisa la consola.');
+          this.alertService.error(
+            'Error',
+            'Error al crear el autor. Revisa la consola.'
+          );
         },
       });
     }

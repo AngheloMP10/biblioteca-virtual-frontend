@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { GeneroService } from '../../../core/services/genero';
+import { AlertService } from '../../../core/services/alert';
 import { Genero } from '../../../core/models/genero';
 
 @Component({
@@ -14,6 +15,7 @@ import { Genero } from '../../../core/models/genero';
 export class GeneroListComponent implements OnInit {
   // Inyección de dependencias
   private generoService = inject(GeneroService);
+  private alertService = inject(AlertService);
 
   generos: Genero[] = [];
 
@@ -29,22 +31,33 @@ export class GeneroListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar géneros:', err);
+        this.alertService.error('Error', 'No se pudieron cargar los géneros');
       },
     });
   }
 
-  eliminarGenero(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este género?')) {
+  // Convertimos el método a ASYNC para usar await cómodamente
+  async eliminarGenero(id: number) {
+    const confirmado = await this.alertService.confirmRequest(
+      '¿Estás seguro?',
+      'Esta acción eliminará el género permanentemente.'
+    );
+
+    if (confirmado) {
       this.generoService.delete(id).subscribe({
         next: () => {
           // Recarga la lista
           this.cargarGeneros();
-          alert('Género eliminado correctamente');
+          this.alertService.success(
+            'Eliminado',
+            'Género eliminado correctamente'
+          );
         },
         error: (err) => {
           console.error('Error al eliminar:', err);
           // Advertencia
-          alert(
+          this.alertService.error(
+            'Error',
             'No se pudo eliminar el género. Es probable que existan libros asociados a él.'
           );
         },

@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { LibroService } from '../../../core/services/libro';
 import { AutorService } from '../../../core/services/autor';
 import { GeneroService } from '../../../core/services/genero';
+import { AlertService } from '../../../core/services/alert';
 
 // Modelos
 import { Libro } from '../../../core/models/libro';
@@ -25,6 +26,7 @@ export class LibroFormComponent implements OnInit {
   private libroService = inject(LibroService);
   private autorService = inject(AutorService);
   private generoService = inject(GeneroService);
+  private alertService = inject(AlertService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -65,13 +67,19 @@ export class LibroFormComponent implements OnInit {
     // Cargar Generos
     this.generoService.getAll().subscribe({
       next: (data) => (this.listaGeneros = data),
-      error: (err) => console.error('Error cargando géneros', err),
+      error: (err) => {
+        console.error('Error cargando géneros', err);
+        this.alertService.error('Error', 'No se pudieron cargar los géneros');
+      },
     });
 
     // Cargar Autores
     this.autorService.getAll().subscribe({
       next: (data) => (this.listaAutores = data),
-      error: (err) => console.error('Error cargando autores', err),
+      error: (err) => {
+        console.error('Error cargando autores', err);
+        this.alertService.error('Error', 'No se pudieron cargar los autores');
+      },
     });
   }
 
@@ -90,22 +98,34 @@ export class LibroFormComponent implements OnInit {
           this.selectedAutoresIds = this.libro.autores.map((a) => a.id);
         }
       },
-      error: (err) => console.error('Error al cargar libro', err),
+      error: (err) => {
+        console.error('Error al cargar libro', err);
+        this.alertService.error('Error', 'No se pudo cargar el libro');
+      },
     });
   }
 
   onSubmit(): void {
     // Validaciones
     if (!this.libro.titulo.trim()) {
-      alert('El título es obligatorio');
+      this.alertService.error(
+        'Formulario inválido',
+        'El título es obligatorio'
+      );
       return;
     }
     if (!this.selectedGeneroId) {
-      alert('Debes seleccionar un género');
+      this.alertService.error(
+        'Formulario inválido',
+        'Debes seleccionar un género'
+      );
       return;
     }
     if (this.selectedAutoresIds.length === 0) {
-      alert('Debes seleccionar al menos un autor');
+      this.alertService.error(
+        'Formulario inválido',
+        'Debes seleccionar al menos un autor'
+      );
       return;
     }
 
@@ -126,23 +146,26 @@ export class LibroFormComponent implements OnInit {
     if (this.isEditing) {
       this.libroService.update(this.libro.id, libroParaEnviar).subscribe({
         next: () => {
-          alert('Libro actualizado correctamente');
+          this.alertService.success(
+            'Actualizado',
+            'Libro actualizado correctamente'
+          );
           this.router.navigate(['/libros']);
         },
         error: (err) => {
           console.error(err);
-          alert('Error al actualizar');
+          this.alertService.error('Error', 'Error al actualizar');
         },
       });
     } else {
       this.libroService.create(libroParaEnviar).subscribe({
         next: () => {
-          alert('Libro creado correctamente');
+          this.alertService.success('Creado', 'Libro creado correctamente');
           this.router.navigate(['/libros']);
         },
         error: (err) => {
           console.error(err);
-          alert('Error al crear');
+          this.alertService.error('Error', 'Error al crear');
         },
       });
     }

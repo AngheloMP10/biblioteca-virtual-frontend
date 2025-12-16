@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LibroService } from '../../core/services/libro';
 import { PrestamoService } from '../../core/services/prestamo';
+import { AlertService } from '../../core/services/alert';
 import { Libro } from '../../core/models/libro';
 
 @Component({
@@ -14,6 +15,7 @@ import { Libro } from '../../core/models/libro';
 export class CatalogoComponent implements OnInit {
   private libroService = inject(LibroService);
   private prestamoService = inject(PrestamoService);
+  private alertService = inject(AlertService);
 
   libros: Libro[] = [];
   loading: boolean = true;
@@ -31,26 +33,36 @@ export class CatalogoComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.alertService.error('Error', 'No se pudieron cargar los libros');
       },
     });
   }
 
-  solicitarPrestamo(libro: Libro): void {
-    if (
-      !confirm(`¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`)
-    ) {
+  // Convertimos el método a ASYNC para usar await cómodamente
+  async solicitarPrestamo(libro: Libro) {
+    // USAMOS EL SWEET ALERT
+    const confirmado = await this.alertService.confirmRequest(
+      'Confirmar préstamo',
+      `¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`
+    );
+
+    if (!confirmado) {
       return;
     }
 
     this.prestamoService.solicitar(libro.id).subscribe({
       next: () => {
-        alert(
-          '✅ Solicitud enviada con éxito. El administrador evaluará tu petición.'
+        this.alertService.success(
+          'Solicitud enviada',
+          'La solicitud fue enviada con éxito. El administrador evaluará tu petición.'
         );
       },
       error: (err) => {
         console.error(err);
-        alert(err?.error || '❌ Error al solicitar el préstamo');
+        this.alertService.error(
+          'Error',
+          err?.error || 'Error al solicitar el préstamo'
+        );
       },
     });
   }

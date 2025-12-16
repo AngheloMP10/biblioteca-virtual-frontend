@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { GeneroService } from '../../../core/services/genero';
+import { AlertService } from '../../../core/services/alert';
 import { Genero } from '../../../core/models/genero';
 
 @Component({
@@ -14,6 +15,7 @@ import { Genero } from '../../../core/models/genero';
 })
 export class GeneroFormComponent implements OnInit {
   private generoService = inject(GeneroService);
+  private alertService = inject(AlertService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -29,11 +31,9 @@ export class GeneroFormComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
-      // MODO EDICIÓN
       this.isEditing = true;
       this.cargarGenero(Number(id));
     } else {
-      // MODO CREACIÓN
       this.isEditing = false;
     }
   }
@@ -43,27 +43,36 @@ export class GeneroFormComponent implements OnInit {
       next: (data) => {
         this.genero = data;
       },
-      error: (err) => console.error('Error al cargar género', err),
+      error: (err) => {
+        console.error('Error al cargar género', err);
+        this.alertService.error('Error', 'No se pudo cargar el género');
+      },
     });
   }
 
   onSubmit(): void {
-    // 1. Validación simple
+    //Validación simple
     if (!this.genero.nombre.trim()) {
-      alert('El nombre del género es obligatorio');
+      this.alertService.error(
+        'Formulario inválido',
+        'El nombre del género es obligatorio'
+      );
       return;
     }
 
     if (this.isEditing) {
-      // --- ACTUALIZAR (PUT) ---
+      // Actualizar
       this.generoService.update(this.genero.id, this.genero).subscribe({
         next: () => {
-          alert('Género actualizado correctamente');
+          this.alertService.success(
+            'Actualizado',
+            'Género actualizado correctamente'
+          );
           this.router.navigate(['/generos']);
         },
         error: (err) => {
           console.error('Error al actualizar:', err);
-          alert('Error al actualizar el género.');
+          this.alertService.error('Error', 'Error al actualizar el género.');
         },
       });
     } else {
@@ -74,12 +83,12 @@ export class GeneroFormComponent implements OnInit {
 
       this.generoService.create(generoParaGuardar as any).subscribe({
         next: () => {
-          alert('Género creado correctamente');
+          this.alertService.success('Creado', 'Género creado correctamente');
           this.router.navigate(['/generos']);
         },
         error: (err) => {
           console.error('Error al crear:', err);
-          alert('Error al crear el género.');
+          this.alertService.error('Error', 'Error al crear el género.');
         },
       });
     }

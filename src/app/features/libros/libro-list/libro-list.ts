@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LibroService } from '../../../core/services/libro';
+import { AlertService } from '../../../core/services/alert';
 import { Libro } from '../../../core/models/libro';
 
 @Component({
@@ -13,6 +14,7 @@ import { Libro } from '../../../core/models/libro';
 })
 export class LibroListComponent implements OnInit {
   private libroService = inject(LibroService);
+  private alertService = inject(AlertService);
 
   libros: Libro[] = [];
 
@@ -28,23 +30,36 @@ export class LibroListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar libros:', err);
+        this.alertService.error('Error', 'No se pudieron cargar los libros');
       },
     });
   }
 
-  eliminarLibro(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este libro?')) {
-      this.libroService.delete(id).subscribe({
-        next: () => {
-          // Recargamos la lista
-          this.cargarLibros();
-          alert('Libro eliminado correctamente');
-        },
-        error: (err) => {
-          console.error('Error al eliminar:', err);
-          alert('No se pudo eliminar el libro.');
-        },
-      });
+  async eliminarLibro(id: number) {
+    const confirmado = await this.alertService.confirmRequest(
+      '¿Estás seguro?',
+      'Esta acción eliminará el libro permanentemente.'
+    );
+
+    if (!confirmado) {
+      return;
     }
+
+    this.libroService.delete(id).subscribe({
+      next: () => {
+        this.alertService.success(
+          'Eliminado',
+          'El libro ha sido eliminado correctamente.'
+        );
+        this.cargarLibros();
+      },
+      error: (err) => {
+        console.error('Error al eliminar:', err);
+        this.alertService.error(
+          'Error',
+          'No se pudo eliminar el libro (quizás tiene autores asociados).'
+        );
+      },
+    });
   }
 }

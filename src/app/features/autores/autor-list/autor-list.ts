@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AutorService } from '../../../core/services/autor';
+import { AlertService } from '../../../core/services/alert';
 import { Autor } from '../../../core/models/autor';
 
 @Component({
@@ -13,6 +14,7 @@ import { Autor } from '../../../core/models/autor';
 })
 export class AutorListComponent implements OnInit {
   private autorService = inject(AutorService);
+  private alertService = inject(AlertService);
 
   autores: Autor[] = [];
 
@@ -28,19 +30,31 @@ export class AutorListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar autores:', err);
+        this.alertService.error('Error', 'No se pudieron cargar los autores');
       },
     });
   }
 
-  eliminarAutor(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este autor?')) {
+  // Convertimos el método a ASYNC para usar await cómodamente
+  async eliminarAutor(id: number) {
+    const confirmado = await this.alertService.confirmRequest(
+      '¿Estás seguro?',
+      'Esta acción eliminará el autor permanentemente.'
+    );
+
+    if (confirmado) {
       this.autorService.delete(id).subscribe({
         next: () => {
           this.cargarAutores();
+          this.alertService.success(
+            'Eliminado',
+            'El autor ha sido eliminado correctamente.'
+          );
         },
         error: (err) => {
           console.error('Error al eliminar:', err);
-          alert(
+          this.alertService.error(
+            'Error',
             'No se pudo eliminar el autor (quizás tiene libros asociados).'
           );
         },
