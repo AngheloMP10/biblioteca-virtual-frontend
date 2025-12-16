@@ -3,28 +3,7 @@
     <div class="card-body">
       <h2 class="text-center mb-4">Crear Cuenta</h2>
 
-      <div
-        *ngIf="mensajeError"
-        class="alert alert-danger text-center"
-        role="alert"
-      >
-        {{ mensajeError }}
-      </div>
-
-      <div
-        *ngIf="isSuccess"
-        class="alert alert-success text-center"
-        role="alert"
-      >
-        ¡Usuario creado con éxito! <br />
-        Redirigiendo al login...
-      </div>
-
-      <form
-        [formGroup]="registroForm"
-        (ngSubmit)="onSubmit()"
-        *ngIf="!isSuccess"
-      >
+      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="username" class="form-label">Nombre de Usuario</label>
           <input

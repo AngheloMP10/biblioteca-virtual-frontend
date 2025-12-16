@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { LibroService } from '../../core/services/libro';
 import { PrestamoService } from '../../core/services/prestamo';
 import { AlertService } from '../../core/services/alert';
@@ -8,7 +9,7 @@ import { Libro } from '../../core/models/libro';
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
@@ -17,8 +18,11 @@ export class CatalogoComponent implements OnInit {
   private prestamoService = inject(PrestamoService);
   private alertService = inject(AlertService);
 
-  libros: Libro[] = [];
+  libros: Libro[] = []; // Lista que se muestra
+  librosOriginales: Libro[] = []; // Copia de seguridad
+
   loading: boolean = true;
+  terminoBusqueda: string = ''; // Texto del buscador
 
   ngOnInit(): void {
     this.cargarLibros();
@@ -27,6 +31,7 @@ export class CatalogoComponent implements OnInit {
   cargarLibros(): void {
     this.libroService.getAll().subscribe({
       next: (data) => {
+        this.librosOriginales = data;
         this.libros = data;
         this.loading = false;
       },
@@ -38,9 +43,31 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
-  // Convertimos el método a ASYNC para usar await cómodamente
+  // Buscador
+  filtrarLibros(): void {
+    const termino = this.terminoBusqueda.toLowerCase().trim();
+
+    if (!termino) {
+      // Si el input está vacío, se restaura la lista original
+      this.libros = [...this.librosOriginales];
+      return;
+    }
+
+    // Filtrar por Título, Género o Autor
+    this.libros = this.librosOriginales.filter((libro) => {
+      const titulo = libro.titulo.toLowerCase();
+      const genero = libro.genero?.nombre.toLowerCase() || '';
+
+      const autor = libro.autores?.some((a) =>
+        a.nombre.toLowerCase().includes(termino)
+      );
+
+      return titulo.includes(termino) || genero.includes(termino) || autor;
+    });
+  }
+
+  // Convertimos el método a ASYNC para usar await
   async solicitarPrestamo(libro: Libro) {
-    // USAMOS EL SWEET ALERT
     const confirmado = await this.alertService.confirmRequest(
       'Confirmar préstamo',
       `¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`

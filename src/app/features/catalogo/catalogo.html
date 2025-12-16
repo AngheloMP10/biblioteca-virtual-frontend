@@ -1,13 +1,34 @@
 <div class="container mt-4 mb-5">
   <h2 class="mb-4 text-center">Catálogo de Libros</h2>
 
+  <!-- Buscador -->
+  <div class="row justify-content-center mb-4" *ngIf="!loading">
+    <div class="col-md-6">
+      <div class="input-group shadow-sm">
+        <span class="input-group-text bg-white border-end-0"> 🔍 </span>
+        <input
+          type="text"
+          class="form-control border-start-0 ps-0"
+          placeholder="Buscar por título, autor o género..."
+          [(ngModel)]="terminoBusqueda"
+          (keyup)="filtrarLibros()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Cargando -->
   <div *ngIf="loading" class="text-center py-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!loading">
+  <!-- Lista -->
+  <div
+    class="row row-cols-1 row-cols-md-3 g-4"
+    *ngIf="!loading && libros.length > 0"
+  >
     <div class="col" *ngFor="let libro of libros">
       <div class="card h-100 shadow-sm border-0">
         <div class="text-center bg-light p-3">
@@ -30,9 +51,9 @@
 
         <div class="card-body">
           <div class="mb-2">
-            <span class="badge bg-info text-dark"
-              >{{ libro.genero?.nombre || 'General' }}</span
-            >
+            <span class="badge bg-info text-dark">
+              {{ libro.genero?.nombre || 'General' }}
+            </span>
             <span
               class="badge ms-2"
               [ngClass]="libro.disponible ? 'bg-success' : 'bg-danger'"
@@ -44,9 +65,9 @@
           <h5 class="card-title fw-bold">{{ libro.titulo }}</h5>
 
           <p class="card-text text-muted">
-            <small
-              >Por:
-              <span *ngFor="let autor of libro.autores; let last=last">
+            <small>
+              Por:
+              <span *ngFor="let autor of libro.autores; let last = last">
                 {{ autor.nombre }}<span *ngIf="!last">, </span>
               </span>
             </small>
@@ -70,7 +91,14 @@
     </div>
   </div>
 
+  <!-- Sin resultado -->
   <div *ngIf="!loading && libros.length === 0" class="text-center mt-5">
-    <p class="text-muted">No hay libros disponibles en este momento.</p>
+    <div class="text-muted mb-2" style="font-size: 3rem">🕵️</div>
+    <p class="text-muted">
+      No encontramos libros que coincidan con tu búsqueda.
+    </p>
+    <button class="btn btn-link" (click)="terminoBusqueda=''; filtrarLibros()">
+      Ver todos los libros
+    </button>
   </div>
 </div>
