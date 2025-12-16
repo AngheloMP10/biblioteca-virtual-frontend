@@ -3,6 +3,8 @@ import { authGuard } from './core/guards/auth-guard';
 import { publicGuard } from './core/guards/public-guard';
 import { adminGuard } from './core/guards/admin-guard';
 
+//Landing
+import { LandingComponent } from './features/landing/landing';
 //Login
 import { LoginComponent } from './auth/login/login';
 //Registro
@@ -18,8 +20,8 @@ import { GeneroFormComponent } from './features/generos/genero-form/genero-form'
 import { PrestamoListComponent } from './features/prestamos/prestamo-list/prestamo-list';
 
 export const routes: Routes = [
-  // Redirección inicial al login
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  // Landing como raíz
+  { path: '', component: LandingComponent },
 
   // Login (Pública)
   { path: 'auth/login', component: LoginComponent, canActivate: [publicGuard] },

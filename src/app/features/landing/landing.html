@@ -1,0 +1,139 @@
+<header class="hero-section d-flex align-items-center text-white">
+  <div class="container text-center">
+    <h1 class="display-3 fw-bold mb-3 animate-up">
+      Tu Biblioteca, <br />
+      <span class="text-primary">Sin Límites</span>
+    </h1>
+    <p class="lead mb-4 animate-up delay-1">
+      Descubre, aprende y crece. Gestiona tus préstamos de libros de manera
+      rápida y sencilla.
+    </p>
+    <div class="d-flex justify-content-center gap-3 animate-up delay-2">
+      <a routerLink="/auth/registro" class="btn btn-primary btn-lg px-4 shadow"
+        >Empieza Gratis</a
+      >
+      <a routerLink="/catalogo" class="btn btn-outline-light btn-lg px-4"
+        >Ver Catálogo</a
+      >
+    </div>
+  </div>
+</header>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="display-4 mb-3">🚀</div>
+          <h3>Rápido</h3>
+          <p class="text-muted">
+            Solicita tus libros en segundos y recíbelos al instante.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="display-4 mb-3">🌎</div>
+          <h3>Accesible</h3>
+          <p class="text-muted">
+            Accede a nuestra colección desde cualquier dispositivo.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="display-4 mb-3">🔒</div>
+          <h3>Seguro</h3>
+          <p class="text-muted">
+            Tus datos y préstamos gestionados con la mejor seguridad.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold">Preguntas Frecuentes</h2>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="accordion shadow-sm" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq1"
+              >
+                ¿Cómo solicito un préstamo?
+              </button>
+            </h2>
+            <div
+              id="faq1"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                Es muy fácil. Solo necesitas registrarte, buscar el libro en el
+                catálogo y hacer clic en el botón
+                <strong>"Solicitar Préstamo"</strong>. El administrador aprobará
+                tu solicitud.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq2"
+              >
+                ¿Cuánto tiempo puedo tener el libro?
+              </button>
+            </h2>
+            <div
+              id="faq2"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                El periodo estándar es de <strong>7 días</strong>. Puedes
+                solicitar una renovación si no hay reservas pendientes sobre ese
+                título.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq3"
+              >
+                ¿Tiene algún costo?
+              </button>
+            </h2>
+            <div
+              id="faq3"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                No, el uso de la plataforma BiblioVirtual es totalmente
+                <strong>gratuito</strong> para todos los estudiantes
+                registrados.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

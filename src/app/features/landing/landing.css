@@ -1,0 +1,32 @@
+/* IMAGEN DE FONDO DEL HERO */
+.hero-section {
+  /* Usamos una imagen de Unsplash de una biblioteca oscura y elegante */
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("https://images.unsplash.com/photo-1419640303358-44f0d27f48e7?q=80&w=1085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center;
+  height: 85vh; /* Ocupa casi toda la pantalla */
+}
+
+/* Animación suave de entrada */
+.animate-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

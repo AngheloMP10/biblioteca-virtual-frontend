@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'app-landing',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './footer.html',
-  styleUrls: ['./footer.css'],
+  templateUrl: './landing.html',
+  styleUrl: './landing.css',
 })
-export class FooterComponent {}
+export class LandingComponent {}
