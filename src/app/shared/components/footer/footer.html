@@ -1,4 +1,4 @@
-<footer class="bg-dark text-light pt-5 pb-3 mt-auto">
+<footer class="bg-dark text-light py-4 mt-auto">
   <div class="container">
     <div class="row">
       <div class="col-md-4 mb-3">
@@ -12,32 +12,43 @@
       <div class="col-md-4 mb-3">
         <h5 class="text-uppercase fw-bold">Navegación</h5>
         <ul class="list-unstyled">
-          <li>
-            <a routerLink="/" class="text-decoration-none text-light hover-link"
-              >Inicio</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/catalogo"
-              class="text-decoration-none text-light hover-link"
-              >Catálogo</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/auth/login"
-              class="text-decoration-none text-light hover-link"
-              >Iniciar Sesión</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/auth/registro"
-              class="text-decoration-none text-light hover-link"
-              >Registrarse</a
-            >
-          </li>
+          <ng-container *ngIf="!isLoggedIn">
+            <li>
+              <a
+                routerLink="/"
+                class="text-decoration-none text-light hover-link"
+              >
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/auth/login"
+                class="text-decoration-none text-light hover-link"
+              >
+                Iniciar Sesión
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/auth/registro"
+                class="text-decoration-none text-light hover-link"
+              >
+                Registrarse
+              </a>
+            </li>
+          </ng-container>
+
+          <ng-container *ngIf="isLoggedIn">
+            <li>
+              <a
+                routerLink="/catalogo"
+                class="text-decoration-none text-light hover-link"
+              >
+                Ir al Catálogo
+              </a>
+            </li>
+          </ng-container>
         </ul>
       </div>
 
