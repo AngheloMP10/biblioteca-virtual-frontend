@@ -38,6 +38,10 @@ export class LibroFormComponent implements OnInit {
   selectedGeneroId: number | null = null;
   selectedAutoresIds: number[] = []; // Array porque un libro puede tener varios autores
 
+  // Imagen seleccionada
+  selectedFile: File | null = null;
+  imagenPrevisualizacion: string | ArrayBuffer | null = null;
+
   // Objeto Libro base
   libro: Libro = {
     id: 0,
@@ -105,44 +109,17 @@ export class LibroFormComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    // Validaciones
-    if (!this.libro.titulo.trim()) {
-      this.alertService.error(
-        'Formulario inválido',
-        'El título es obligatorio'
-      );
-      return;
-    }
-    if (!this.selectedGeneroId) {
-      this.alertService.error(
-        'Formulario inválido',
-        'Debes seleccionar un género'
-      );
-      return;
-    }
-    if (this.selectedAutoresIds.length === 0) {
-      this.alertService.error(
-        'Formulario inválido',
-        'Debes seleccionar al menos un autor'
-      );
-      return;
-    }
-
-    // Para el Backend
-    // IDs para Spring Boot
+  guardarLibro(): void {
     const libroParaEnviar = {
       ...this.libro,
       genero: { id: this.selectedGeneroId },
       autores: this.selectedAutoresIds.map((id) => ({ id: Number(id) })),
     };
 
-    // Si es crear, eliminamos el ID para evitar errores de Hibernate
     if (!this.isEditing) {
       delete (libroParaEnviar as any).id;
     }
 
-    // Enviar
     if (this.isEditing) {
       this.libroService.update(this.libro.id, libroParaEnviar).subscribe({
         next: () => {
@@ -168,6 +145,64 @@ export class LibroFormComponent implements OnInit {
           this.alertService.error('Error', 'Error al crear');
         },
       });
+    }
+  }
+
+  onSubmit(): void {
+    // Validaciones
+    if (!this.libro.titulo.trim()) {
+      this.alertService.error(
+        'Formulario inválido',
+        'El título es obligatorio'
+      );
+      return;
+    }
+    if (!this.selectedGeneroId) {
+      this.alertService.error(
+        'Formulario inválido',
+        'Debes seleccionar un género'
+      );
+      return;
+    }
+    if (this.selectedAutoresIds.length === 0) {
+      this.alertService.error(
+        'Formulario inválido',
+        'Debes seleccionar al menos un autor'
+      );
+      return;
+    }
+
+    // Hay imagen nueva a subir
+    if (this.selectedFile) {
+      this.libroService.uploadImage(this.selectedFile).subscribe({
+        next: (resp) => {
+          // Backend devuelve { url: 'https://cloudinary...' }
+          this.libro.portada = resp.url;
+
+          this.guardarLibro();
+        },
+        error: (err) => {
+          console.error(err);
+          this.alertService.error('Error', 'Falló la subida de la imagen');
+        },
+      });
+    } else {
+      // No hay imagen nueva
+      this.guardarLibro();
+    }
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+      // Previsualización local
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagenPrevisualizacion = reader.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 }

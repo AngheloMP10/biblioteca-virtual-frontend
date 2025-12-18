@@ -86,25 +86,28 @@
             </div>
 
             <div class="mb-3">
-              <label for="portada" class="form-label"
-                >URL Portada (Opcional)</label
+              <label for="portadaFile" class="form-label"
+                >Portada del Libro</label
               >
               <input
-                type="text"
                 class="form-control"
-                id="portada"
-                [(ngModel)]="libro.portada"
-                name="portada"
-                placeholder="https://..."
+                type="file"
+                id="portadaFile"
+                (change)="onFileSelected($event)"
+                accept="image/*"
               />
+              <input type="hidden" [(ngModel)]="libro.portada" name="portada" />
             </div>
 
-            <div class="mb-3 text-center" *ngIf="libro.portada">
+            <div
+              class="mb-3 text-center"
+              *ngIf="libro.portada || imagenPrevisualizacion"
+            >
+              <p class="text-muted small mb-1">Vista Previa:</p>
               <img
-                [src]="libro.portada"
+                [src]="imagenPrevisualizacion || libro.portada"
                 class="img-thumbnail"
-                style="height: 150px"
-                onerror="this.style.display='none'"
+                style="height: 200px; object-fit: cover"
               />
             </div>
 

@@ -8,36 +8,44 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class LibroService {
-  // Inyecta HttpClient
   private http = inject(HttpClient);
 
-  // URL base de la API
-  private apiUrl = `${environment.apiUrl}/libros`;
+  // Base API
+  private apiUrl = environment.apiUrl;
 
-  // Obtiene todos los libros
+  // Libros
+
   getAll(): Observable<Libro[]> {
-    return this.http.get<Libro[]>(this.apiUrl);
+    return this.http.get<Libro[]>(`${this.apiUrl}/libros`);
   }
 
-  // Obtiene un libro por su ID
   getById(id: number): Observable<Libro> {
-    return this.http.get<Libro>(`${this.apiUrl}/${id}`);
+    return this.http.get<Libro>(`${this.apiUrl}/libros/${id}`);
   }
 
-  // Crea un nuevo libro
-  // El objeto 'libro' debe incluir { genero: {...}, autores: [...] }
   create(libro: any): Observable<Libro> {
-    return this.http.post<Libro>(this.apiUrl, libro);
+    return this.http.post<Libro>(`${this.apiUrl}/libros`, libro);
   }
 
-  // Actualiza un libro existente
   update(id: number, libro: any): Observable<Libro> {
-    return this.http.put<Libro>(`${this.apiUrl}/${id}`, libro);
+    return this.http.put<Libro>(`${this.apiUrl}/libros/${id}`, libro);
   }
 
-  // Elimina un libro por su ID
-  // responseType 'text' para manejar respuestas vacías o texto plano
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/libros/${id}`, {
+      responseType: 'text',
+    });
+  }
+
+  // Media
+
+  uploadImage(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<{ url: string }>(
+      `${this.apiUrl}/media/upload`,
+      formData
+    );
   }
 }
