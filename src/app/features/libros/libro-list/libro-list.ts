@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LibroService } from '../../../core/services/libro';
 import { AlertService } from '../../../core/services/alert';
+import { PageResponse } from '../../../core/models/page-response';
 import { Libro } from '../../../core/models/libro';
 
 @Component({
@@ -23,10 +24,10 @@ export class LibroListComponent implements OnInit {
   }
 
   cargarLibros(): void {
-    this.libroService.getAll().subscribe({
-      next: (data) => {
-        this.libros = data;
-        console.log('Libros cargados:', data);
+    this.libroService.getAll(0, 100).subscribe({
+      next: (response: PageResponse<Libro>) => {
+        this.libros = response.content;
+        console.log('Libros cargados:', response.content);
       },
       error: (err) => {
         console.error('Error al cargar libros:', err);

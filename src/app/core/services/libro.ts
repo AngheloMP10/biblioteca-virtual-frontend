@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PageResponse } from '../models/page-response';
 import { Libro } from '../models/libro';
 import { environment } from '../../../environments/environment';
 
@@ -13,10 +14,19 @@ export class LibroService {
   // Base API
   private apiUrl = environment.apiUrl;
 
-  // Libros
+  // Libros con paginación y búsqueda opcional
+  getAll(
+    page: number = 0,
+    size: number = 6,
+    keyword: string = ''
+  ): Observable<PageResponse<Libro>> {
+    let params = `?page=${page}&size=${size}`;
 
-  getAll(): Observable<Libro[]> {
-    return this.http.get<Libro[]>(`${this.apiUrl}/libros`);
+    if (keyword && keyword.trim().length > 0) {
+      params += `&keyword=${encodeURIComponent(keyword.trim())}`;
+    }
+
+    return this.http.get<PageResponse<Libro>>(`${this.apiUrl}/libros${params}`);
   }
 
   getById(id: number): Observable<Libro> {

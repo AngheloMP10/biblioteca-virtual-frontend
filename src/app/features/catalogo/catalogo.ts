@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { LibroService } from '../../core/services/libro';
 import { PrestamoService } from '../../core/services/prestamo';
 import { AlertService } from '../../core/services/alert';
+import { PageResponse } from '../../core/models/page-response';
 import { Libro } from '../../core/models/libro';
 
 @Component({
@@ -19,7 +20,14 @@ export class CatalogoComponent implements OnInit {
   private alertService = inject(AlertService);
 
   libros: Libro[] = []; // Lista que se muestra
-  librosOriginales: Libro[] = []; // Copia de seguridad
+
+  // Paginación
+  page: number = 0;
+  size: number = 6;
+  totalElements: number = 0;
+  totalPages: number = 0;
+  isFirst: boolean = false;
+  isLast: boolean = false;
 
   loading: boolean = true;
   terminoBusqueda: string = ''; // Texto del buscador
@@ -29,41 +37,51 @@ export class CatalogoComponent implements OnInit {
   }
 
   cargarLibros(): void {
-    this.libroService.getAll().subscribe({
-      next: (data) => {
-        this.librosOriginales = data;
-        this.libros = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-        this.alertService.error('Error', 'No se pudieron cargar los libros');
-      },
-    });
+    this.loading = true;
+
+    this.libroService
+      .getAll(this.page, this.size, this.terminoBusqueda)
+      .subscribe({
+        next: (response: PageResponse<Libro>) => {
+          this.libros = response.content;
+          this.totalPages = response.totalPages;
+          this.totalElements = response.totalElements;
+          this.isFirst = response.first;
+          this.isLast = response.last;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+          this.alertService.error('Error', 'No se pudieron cargar los libros');
+        },
+      });
+  }
+
+  // Navegación
+  rewind(): void {
+    if (!this.isFirst) {
+      this.page--;
+      this.cargarLibros();
+    }
+  }
+
+  forward(): void {
+    if (!this.isLast) {
+      this.page++;
+      this.cargarLibros();
+    }
+  }
+
+  setPage(page: number): void {
+    this.page = page;
+    this.cargarLibros();
   }
 
   // Buscador
   filtrarLibros(): void {
-    const termino = this.terminoBusqueda.toLowerCase().trim();
-
-    if (!termino) {
-      // Si el input está vacío, se restaura la lista original
-      this.libros = [...this.librosOriginales];
-      return;
-    }
-
-    // Filtrar por Título, Género o Autor
-    this.libros = this.librosOriginales.filter((libro) => {
-      const titulo = libro.titulo.toLowerCase();
-      const genero = libro.genero?.nombre.toLowerCase() || '';
-
-      const autor = libro.autores?.some((a) =>
-        a.nombre.toLowerCase().includes(termino)
-      );
-
-      return titulo.includes(termino) || genero.includes(termino) || autor;
-    });
+    this.page = 0;
+    this.cargarLibros();
   }
 
   // Convertimos el método a ASYNC para usar await
