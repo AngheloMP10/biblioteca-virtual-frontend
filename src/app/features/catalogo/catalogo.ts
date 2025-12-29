@@ -149,6 +149,10 @@ export class CatalogoComponent implements OnInit {
     return localStorage.getItem('role') === 'ROLE_USER';
   }
 
+  get isAdmin(): boolean {
+    return localStorage.getItem('role') === 'ROLE_ADMIN';
+  }
+
   get usuarioNombre(): string {
     return localStorage.getItem('username') || 'Usuario';
   }

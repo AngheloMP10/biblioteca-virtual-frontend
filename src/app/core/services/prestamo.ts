@@ -43,6 +43,15 @@ export class PrestamoService {
     );
   }
 
+  // Entregar libro (retiro presencial vía QR)
+  entregar(id: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/entregar/${id}`,
+      {},
+      { responseType: 'text' }
+    );
+  }
+
   // Rechaza un préstamo por ID
   rechazar(id: number): Observable<any> {
     return this.http.post(
