@@ -1,10 +1,10 @@
-# 📚 Biblioteca Virtual Frontend — Sistema Web con Docker y CI/CD
+# Biblioteca Virtual Frontend — Sistema Web con Docker y CI/CD
 
 Sistema frontend de la Biblioteca Virtual desarrollado con Angular, contenerizado y automatizado mediante CI/CD.
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
 Anghelo M. P.  
 Estudiante de Ingeniería de Software  
@@ -12,7 +12,7 @@ Universidad Tecnológica del Perú
 
 ---
 
-## 🚀 Tecnologías usadas
+## Tecnologías usadas
 
 - Angular 20
 - Nginx
@@ -22,7 +22,7 @@ Universidad Tecnológica del Perú
 
 ---
 
-## ✅ Requisitos
+## Requisitos
 
 - Docker
 
@@ -30,9 +30,9 @@ Universidad Tecnológica del Perú
 
 ---
 
-## ▶️ Ejecución del proyecto
+## Ejecución del proyecto
 
-### 1️⃣ Local (opcional)
+### Local
 
 Para desarrollo local usando Angular CLI:
 
