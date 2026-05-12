@@ -21,12 +21,13 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
 export class LoginComponent {
   mensajeError: string = '';
   loginForm!: FormGroup;
+  loading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -42,6 +43,9 @@ export class LoginComponent {
       return;
     }
 
+    this.loading = true;
+    this.mensajeError = '';
+
     const { username, password } = this.loginForm.value;
 
     const loginData = {
@@ -54,6 +58,8 @@ export class LoginComponent {
         // Guardar sesíon
         this.authService.saveSession(resp);
 
+        this.loading = false;
+
         if (resp.role === 'ROLE_ADMIN') {
           // Si es Admin
           this.router.navigate(['/libros']);
@@ -64,6 +70,7 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Error login:', err);
+        this.loading = false;
         this.mensajeError = 'Usuario o contraseña incorrectos';
       },
     });

@@ -1,26 +1,72 @@
-/*fondo gris*/
+/* Base */
 :host {
   display: block;
   height: 100vh;
-  background-color: #f0f2f5;
 }
 
-.card {
+.auth-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f7fb;
+}
+
+/* imagen */
+.auth-image {
+  flex: 1;
+  background-image: url("/assets/images/biblioteca.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+/* formulario */
+.auth-form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
   border: none;
-  border-radius: 15px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.4s ease;
 }
 
-.container {
-  height: 100%;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.btn-primary {
-  padding: 10px;
+.form-control {
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* botones */
+.btn-primary,
+.btn-success {
+  padding: 12px;
+  border-radius: 10px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.alert-danger {
-  font-size: 0.9rem;
-  font-weight: 500;
 }

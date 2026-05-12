@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+/* Botón primario */
+.btn-primary {
+  background-color: #4f46e5; /* Un tono índigo moderno */
+  border-color: #4f46e5;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #4338ca;
+  border-color: #4338ca;
+  transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Enlaces de registro */
+a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover {
+  text-decoration: underline;
+}
