@@ -20,6 +20,8 @@ import { AuthService } from '../auth.service';
 })
 export class RegistroComponent {
   registroForm: FormGroup;
+  loading: boolean = false;
+  mostrarPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,8 +32,18 @@ export class RegistroComponent {
     this.registroForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
-      celular: ['', [Validators.required, Validators.minLength(9)]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
+      celular: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+          ),
+        ],
+      ],
     });
   }
 
@@ -43,6 +55,8 @@ export class RegistroComponent {
       );
       return;
     }
+
+    this.loading = true;
 
     const { username, password, email, celular } = this.registroForm.value;
     const registroData = {
@@ -63,7 +77,7 @@ export class RegistroComponent {
       },
       error: (err) => {
         console.error('Error registro:', err);
-
+        this.loading = false;
         this.alertService.error(
           'Error',
           'No se pudo registrar. Es posible que el usuario ya exista.',

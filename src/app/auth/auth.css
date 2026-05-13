@@ -63,6 +63,37 @@
   padding: 12px;
 }
 
+.form-floating {
+  position: relative;
+}
+
+/* espacio para el ojo */
+.custom-password-input {
+  padding-right: 3rem !important;
+}
+
+/* ojo */
+.btn-eye {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 12px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Validación */
+.form-control.is-invalid,
+.form-control.is-valid {
+  background-position: right 2.2rem center !important;
+}
+
 /* botones */
 .btn-primary,
 .btn-success {

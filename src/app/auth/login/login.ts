@@ -22,6 +22,7 @@ export class LoginComponent {
   mensajeError: string = '';
   loginForm!: FormGroup;
   loading: boolean = false;
+  mostrarPassword = false;
 
   constructor(
     private fb: FormBuilder,
