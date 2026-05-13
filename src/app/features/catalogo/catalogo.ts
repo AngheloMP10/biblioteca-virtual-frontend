@@ -38,6 +38,8 @@ export class CatalogoComponent implements OnInit {
   activeLoansCount: number = 0;
   maxLoans: number = 3;
 
+  loadingPrestamoId: number | null = null;
+
   ngOnInit(): void {
     this.cargarLibros();
     this.calcularCupoDisponible();
@@ -70,7 +72,7 @@ export class CatalogoComponent implements OnInit {
     this.prestamoService.getMisPrestamos().subscribe({
       next: (prestamos) => {
         const activos = prestamos.filter(
-          (p) => p.estado !== 'FINALIZADO' && p.estado !== 'RECHAZADO'
+          (p) => p.estado !== 'FINALIZADO' && p.estado !== 'RECHAZADO',
         );
         this.activeLoansCount = activos.length;
       },
@@ -115,32 +117,40 @@ export class CatalogoComponent implements OnInit {
     if (this.cuposDisponibles <= 0) {
       this.alertService.error(
         'Límite alcanzado',
-        'Ya tienes 3 libros en proceso. Devuelve uno para solicitar otro.'
+        'Ya tienes 3 libros en proceso. Devuelve uno para solicitar otro.',
       );
       return;
     }
 
     const confirmado = await this.alertService.confirmRequest(
       'Confirmar préstamo',
-      `¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`
+      `¿Deseas solicitar el préstamo del libro "${libro.titulo}"?`,
     );
 
     if (!confirmado) return;
+
+    this.loadingPrestamoId = libro.id;
 
     this.prestamoService.solicitar(libro.id).subscribe({
       next: () => {
         this.alertService.success(
           'Solicitud enviada',
-          'La solicitud fue enviada con éxito.'
+          'La solicitud fue enviada con éxito.',
         );
 
         this.activeLoansCount++;
+        this.cargarLibros();
       },
+
       error: (err) => {
         this.alertService.error(
           'Error',
-          err?.error || 'Error al solicitar el préstamo'
+          err?.error || 'Error al solicitar el préstamo',
         );
+      },
+
+      complete: () => {
+        this.loadingPrestamoId = null;
       },
     });
   }

@@ -33,81 +33,88 @@
 
   <div class="card shadow-sm">
     <div class="card-body p-0">
-      <table class="table table-striped table-hover mb-0 align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Libro</th>
-            <th>Fecha Solicitud</th>
-            <th>Stock</th>
-            <th>Estado</th>
-            <th class="text-end">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let p of prestamos">
-            <td>{{ p.id }}</td>
-            <td class="fw-bold">{{ p.usuario.username }}</td>
-            <td>{{ p.libro.titulo }}</td>
-            <td>{{ p.fechaSolicitud }}</td>
+      <div class="table-responsive">
+        <table
+          class="table table-striped table-hover mb-0 align-middle table-sm"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Usuario</th>
+              <th>Libro</th>
+              <th>Fecha Solicitud</th>
+              <th>Stock</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of prestamos">
+              <td>{{ p.id }}</td>
+              <td class="fw-bold">{{ p.usuario.username }}</td>
+              <td>{{ p.libro.titulo }}</td>
+              <td>{{ p.fechaSolicitud }}</td>
 
-            <td>
-              <span
-                class="badge"
-                [ngClass]="p.libro.stock > 0 ? 'bg-success' : 'bg-danger'"
-              >
-                {{ p.libro.stock }}
-              </span>
-            </td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="p.libro.stock > 0 ? 'bg-success' : 'bg-danger'"
+                >
+                  {{ p.libro.stock }}
+                </span>
+              </td>
 
-            <td>
-              <span
-                class="badge"
-                [ngClass]="{
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
                   'bg-warning text-dark': p.estado === 'PENDIENTE',
                   'bg-success': p.estado === 'APROBADO',
                   'bg-danger': p.estado === 'RECHAZADO',
                   'bg-info text-dark': p.estado === 'FINALIZADO'
                 }"
-              >
-                {{ p.estado }}
-              </span>
-            </td>
-
-            <td class="text-end">
-              <div *ngIf="p.estado === 'PENDIENTE'">
-                <button
-                  class="btn btn-success btn-sm me-2"
-                  [disabled]="p.libro.stock === 0"
-                  (click)="aprobar(p.id)"
                 >
-                  ✅ Aprobar
-                </button>
-                <button class="btn btn-danger btn-sm" (click)="rechazar(p.id)">
-                  ❌ Rechazar
-                </button>
-              </div>
+                  {{ p.estado }}
+                </span>
+              </td>
 
-              <div *ngIf="p.estado === 'EN_PRESTAMO'">
-                <button
-                  class="btn btn-primary btn-sm"
-                  (click)="finalizar(p.id)"
+              <td class="text-end">
+                <div *ngIf="p.estado === 'PENDIENTE'">
+                  <button
+                    class="btn btn-success btn-sm me-2"
+                    [disabled]="p.libro.stock === 0"
+                    (click)="aprobar(p.id)"
+                  >
+                    ✅ Aprobar
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="rechazar(p.id)"
+                  >
+                    ❌ Rechazar
+                  </button>
+                </div>
+
+                <div *ngIf="p.estado === 'EN_PRESTAMO'">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    (click)="finalizar(p.id)"
+                  >
+                    📦 Finalizar
+                  </button>
+                </div>
+
+                <span
+                  *ngIf="p.estado === 'RECHAZADO' || p.estado === 'FINALIZADO'"
+                  class="text-muted small"
                 >
-                  📦 Finalizar
-                </button>
-              </div>
-
-              <span
-                *ngIf="p.estado === 'RECHAZADO' || p.estado === 'FINALIZADO'"
-                class="text-muted small"
-              >
-                Sin acciones
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  Sin acciones
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

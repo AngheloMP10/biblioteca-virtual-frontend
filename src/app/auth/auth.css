@@ -19,6 +19,18 @@
   position: relative;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.auth-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.7)
+  );
 }
 
 .overlay {
@@ -27,6 +39,8 @@
   padding: 40px;
   border-radius: 20px;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 /* formulario */
@@ -44,18 +58,13 @@
   border: none;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  animation: fadeIn 0.4s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.auth-card:hover {
+  transform: translateY(-2px);
 }
 
 .form-control {

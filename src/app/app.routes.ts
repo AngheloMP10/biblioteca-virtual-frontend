@@ -20,6 +20,8 @@ import { GeneroListComponent } from './features/generos/genero-list/genero-list'
 import { GeneroFormComponent } from './features/generos/genero-form/genero-form';
 import { PrestamoListComponent } from './features/prestamos/prestamo-list/prestamo-list';
 import { MisPedidosComponent } from './features/prestamos/mis-pedidos/mis-pedidos';
+// 404
+import { NotFoundComponent } from './features/not-found/not-found';
 
 export const routes: Routes = [
   // Landing como raíz
@@ -112,6 +114,5 @@ export const routes: Routes = [
   },
 
   // ERROR 404
-  // Cualquier ruta desconocida redirige al login
-  { path: '**', redirectTo: 'auth/login' },
+  { path: '**', component: NotFoundComponent },
 ];

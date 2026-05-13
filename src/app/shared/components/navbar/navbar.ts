@@ -52,6 +52,23 @@ export class NavbarComponent {
     return this.isAdmin || this.isBibliotecario;
   }
 
+  // Rol Formateado
+  get rolFormateado(): string {
+    switch (this.rol) {
+      case 'ROLE_ADMIN':
+        return 'Administrador';
+
+      case 'ROLE_BIBLIOTECARIO':
+        return 'Bibliotecario';
+
+      case 'ROLE_USER':
+        return 'Usuario';
+
+      default:
+        return 'Desconocido';
+    }
+  }
+
   ngOnInit(): void {}
 
   logout(): void {

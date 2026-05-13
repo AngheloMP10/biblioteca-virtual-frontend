@@ -47,11 +47,14 @@
 
   <!-- Lista -->
   <div
-    class="row row-cols-1 row-cols-md-3 g-4"
+    class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
     *ngIf="!loading && libros.length > 0"
   >
-    <div class="col" *ngFor="let libro of libros">
-      <div class="card h-100 shadow-sm border-0">
+    <div
+      class="col animate__animated animate__fadeInUp animate__faster"
+      *ngFor="let libro of libros"
+    >
+      <div class="card catalog-card h-100 shadow-sm border-0">
         <div class="text-center bg-light p-3">
           <img
             *ngIf="libro.portada"
@@ -103,10 +106,20 @@
         <div class="card-footer bg-white border-0 pb-3">
           <button
             class="btn btn-outline-primary w-100"
-            [disabled]="libro.stock === 0 || cuposDisponibles === 0"
+            [disabled]="
+              libro.stock === 0 ||
+              cuposDisponibles === 0 ||
+              loadingPrestamoId === libro.id
+            "
             (click)="solicitarPrestamo(libro)"
           >
-            {{ libro.stock > 0 ? 'Solicitar Préstamo' : 'Sin Stock' }}
+            <span
+              *ngIf="loadingPrestamoId === libro.id"
+              class="spinner-border spinner-border-sm me-2"
+            ></span>
+
+            {{ loadingPrestamoId === libro.id ? 'Solicitando...' : libro.stock >
+            0 ? 'Solicitar Préstamo' : 'Sin Stock' }}
           </button>
         </div>
       </div>

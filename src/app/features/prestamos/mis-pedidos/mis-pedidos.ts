@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { QRCodeComponent } from 'angularx-qrcode';
+
 import { PrestamoService } from '../../../core/services/prestamo';
 import { Prestamo } from '../../../core/models/prestamo';
 import { EstadoPrestamo } from '../../../core/models/prestamo';
@@ -8,7 +10,7 @@ import { EstadoPrestamo } from '../../../core/models/prestamo';
 @Component({
   selector: 'app-mis-pedidos',
   standalone: true,
-  imports: [CommonModule, QRCodeComponent],
+  imports: [CommonModule, QRCodeComponent, RouterModule],
   templateUrl: './mis-pedidos.html',
   styleUrl: './mis-pedidos.css',
 })
