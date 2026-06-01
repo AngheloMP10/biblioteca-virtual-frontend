@@ -26,7 +26,7 @@ export class CatalogoComponent implements OnInit {
 
   // Paginación
   page: number = 0;
-  size: number = 6;
+  size: number = 8;
   totalElements: number = 0;
   totalPages: number = 0;
   isFirst: boolean = false;

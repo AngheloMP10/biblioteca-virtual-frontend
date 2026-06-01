@@ -20,6 +20,7 @@ import { GeneroListComponent } from './features/generos/genero-list/genero-list'
 import { GeneroFormComponent } from './features/generos/genero-form/genero-form';
 import { PrestamoListComponent } from './features/prestamos/prestamo-list/prestamo-list';
 import { MisPedidosComponent } from './features/prestamos/mis-pedidos/mis-pedidos';
+import { DashboardComponent } from './features/admin/dashboard/dashboard';
 // 404
 import { NotFoundComponent } from './features/not-found/not-found';
 
@@ -49,6 +50,14 @@ export const routes: Routes = [
   },
 
   // Ruta para admin (Protegidas con authGuard y adminGuard)
+
+  // Dashboard
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard, adminGuard],
+  },
+
   // Libros
   {
     path: 'libros',

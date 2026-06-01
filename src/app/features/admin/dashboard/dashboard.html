@@ -1,0 +1,152 @@
+<div class="container mt-4 mb-5">
+  <h2 class="text-center mb-4 animate__animated animate__fadeInDown">
+    📊 Dashboard Administrativo
+  </h2>
+
+  <div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-success" (click)="exportarExcel()">
+      📊 Exportar Excel
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Fecha Inicio</label>
+          <input type="date" class="form-control" [(ngModel)]="fechaInicio" />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Fecha Fin</label>
+          <input type="date" class="form-control" [(ngModel)]="fechaFin" />
+        </div>
+
+        <div class="col-md-4 d-flex gap-2">
+          <button
+            class="btn btn-primary flex-fill"
+            (click)="filtrarDashboard()"
+          >
+            🔍 Filtrar
+          </button>
+
+          <button class="btn btn-outline-secondary" (click)="limpiarFiltro()">
+            ↺
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+      <div
+        class="card dashboard-card shadow-sm border-0 text-center animate__animated animate__fadeInUp"
+      >
+        <div class="card-body">
+          <div class="display-5 mb-2">📚</div>
+          <h6 class="text-muted">Total Libros</h6>
+          <h3 class="fw-bold text-primary">{{ metricas.totalLibros }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+      <div
+        class="card dashboard-card shadow-sm border-0 text-center animate__animated animate__fadeInUp"
+      >
+        <div class="card-body">
+          <div class="display-5 mb-2">👥</div>
+          <h6 class="text-muted">Total Usuarios</h6>
+          <h3 class="fw-bold text-success">{{ metricas.totalUsuarios }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+      <div
+        class="card dashboard-card shadow-sm border-0 text-center animate__animated animate__fadeInUp"
+      >
+        <div class="card-body">
+          <div class="display-5 mb-2">📖</div>
+          <h6 class="text-muted">Préstamos Activos</h6>
+          <h3 class="fw-bold text-warning">{{ metricas.prestamosActivos }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+      <div
+        class="card dashboard-card shadow-sm border-0 text-center animate__animated animate__fadeInUp"
+      >
+        <div class="card-body">
+          <div class="display-5 mb-2">✅</div>
+          <h6 class="text-muted">Préstamos Finalizados</h6>
+          <h3 class="fw-bold text-info">{{ metricas.prestamosFinalizados }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="row g-4">
+    <!-- Libros más prestados -->
+    <div class="col-lg-8">
+      <div
+        class="card dashboard-card shadow-sm border-0 animate__animated animate__fadeIn"
+      >
+        <div class="card-header bg-white">
+          <h5 class="mb-0">📚 Libros Más Prestados</h5>
+        </div>
+
+        <div class="card-body">
+          <div
+            *ngIf="librosMasPrestados.length === 0"
+            class="text-center text-muted py-5"
+          >
+            📚 Aún no existen préstamos registrados.
+          </div>
+
+          <canvas
+            *ngIf="librosMasPrestados.length > 0"
+            baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            type="bar"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Géneros -->
+    <div class="col-lg-4">
+      <div
+        class="card dashboard-card shadow-sm border-0 animate__animated animate__fadeIn"
+      >
+        <div class="card-header bg-white">
+          <h5 class="mb-0">🎭 Géneros Más Populares</h5>
+        </div>
+
+        <div class="card-body">
+          <div
+            *ngIf="generosMasPopulares.length === 0"
+            class="text-center text-muted py-5"
+          >
+            🎭 No hay información suficiente para generar estadísticas.
+          </div>
+
+          <canvas
+            *ngIf="generosMasPopulares.length > 0"
+            baseChart
+            [data]="pieChartData"
+            type="pie"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
