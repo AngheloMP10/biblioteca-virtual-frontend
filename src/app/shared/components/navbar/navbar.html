@@ -18,59 +18,73 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto align-items-center">
         <!-- STAFF: ADMIN + BIBLIOTECARIO -->
         <ng-container *ngIf="isStaff">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/libros" routerLinkActive="active">
-              📚 Libros
+          <!-- SOLO ADMIN: Dashboard -->
+          <li class="nav-item me-2" *ngIf="isAdmin">
+            <a
+              class="nav-link"
+              routerLink="/dashboard"
+              routerLinkActive="active"
+            >
+              📊 Dashboard
             </a>
           </li>
 
-          <li class="nav-item">
+          <!-- STAFF: Mantenimiento Agrupado (Dropdown) -->
+          <li class="nav-item dropdown me-2">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              [class.active]="router.isActive('/libros', false) || router.isActive('/autores', false) || router.isActive('/generos', false)"
+            >
+              📦 Mantenimiento
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/libros"
+                  routerLinkActive="active"
+                  >📚 Gestión de Libros</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/autores"
+                  routerLinkActive="active"
+                  >✍️ Autores</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/generos"
+                  routerLinkActive="active"
+                  >🎭 Géneros</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <!-- STAFF: Solicitudes -->
+          <li class="nav-item me-2">
             <a
               class="nav-link"
               routerLink="/prestamos"
               routerLinkActive="active"
             >
-              🛎️ Solicitudes
+              📋 Solicitudes
             </a>
           </li>
 
-          <!-- SOLO ADMIN -->
-          <ng-container *ngIf="isAdmin">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                routerLink="/dashboard"
-                routerLinkActive="active"
-              >
-                📊 Dashboard
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                routerLink="/autores"
-                routerLinkActive="active"
-              >
-                ✍️ Autores
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                routerLink="/generos"
-                routerLinkActive="active"
-              >
-                🎭 Géneros
-              </a>
-            </li>
-          </ng-container>
-
-          <li class="nav-item ms-lg-3 border-start ps-lg-3">
+          <!-- STAFF: Vista rápida al Catálogo -->
+          <li class="nav-item ms-lg-2 border-start ps-lg-3">
             <a
               class="nav-link text-info text-opacity-80"
               routerLink="/catalogo"
@@ -82,11 +96,26 @@
         </ng-container>
 
         <!-- USER -->
-        <li class="nav-item" *ngIf="isUser">
-          <a class="nav-link" routerLink="/catalogo" routerLinkActive="active">
-            📖 Catálogo
-          </a>
-        </li>
+        <ng-container *ngIf="isUser">
+          <li class="nav-item me-2">
+            <a
+              class="nav-link"
+              routerLink="/catalogo"
+              routerLinkActive="active"
+            >
+              📖 Catálogo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/mis-pedidos"
+              routerLinkActive="active"
+            >
+              📚 Mis Pedidos
+            </a>
+          </li>
+        </ng-container>
       </ul>
 
       <!-- USUARIO -->

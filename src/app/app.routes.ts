@@ -88,34 +88,34 @@ export const routes: Routes = [
   {
     path: 'autores',
     component: AutorListComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
   {
     path: 'autores/nuevo',
     component: AutorFormComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
   {
     path: 'autores/editar/:id',
     component: AutorFormComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
 
   // Géneros
   {
     path: 'generos',
     component: GeneroListComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
   {
     path: 'generos/nuevo',
     component: GeneroFormComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
   {
     path: 'generos/editar/:id',
     component: GeneroFormComponent,
-    canActivate: [authGuard, adminGuard],
+    canActivate: [authGuard, staffGuard],
   },
 
   // Prestamos
