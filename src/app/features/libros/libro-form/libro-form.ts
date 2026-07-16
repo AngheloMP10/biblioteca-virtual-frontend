@@ -74,7 +74,6 @@ export class LibroFormComponent implements OnInit {
       next: (data) => (this.listaGeneros = data),
       error: (err) => {
         console.error('Error cargando géneros', err);
-        this.alertService.error('Error', 'No se pudieron cargar los géneros');
       },
     });
 
@@ -83,7 +82,6 @@ export class LibroFormComponent implements OnInit {
       next: (data) => (this.listaAutores = data),
       error: (err) => {
         console.error('Error cargando autores', err);
-        this.alertService.error('Error', 'No se pudieron cargar los autores');
       },
     });
   }
@@ -105,7 +103,6 @@ export class LibroFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar libro', err);
-        this.alertService.error('Error', 'No se pudo cargar el libro');
       },
     });
   }
@@ -126,13 +123,12 @@ export class LibroFormComponent implements OnInit {
         next: () => {
           this.alertService.success(
             'Actualizado',
-            'Libro actualizado correctamente'
+            'Libro actualizado correctamente',
           );
           this.router.navigate(['/libros']);
         },
         error: (err) => {
           console.error(err);
-          this.alertService.error('Error', 'Error al actualizar');
         },
       });
     } else {
@@ -143,7 +139,6 @@ export class LibroFormComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
-          this.alertService.error('Error', 'Error al crear');
         },
       });
     }
@@ -154,21 +149,21 @@ export class LibroFormComponent implements OnInit {
     if (!this.libro.titulo.trim()) {
       this.alertService.error(
         'Formulario inválido',
-        'El título es obligatorio'
+        'El título es obligatorio',
       );
       return;
     }
     if (!this.selectedGeneroId) {
       this.alertService.error(
         'Formulario inválido',
-        'Debes seleccionar un género'
+        'Debes seleccionar un género',
       );
       return;
     }
     if (this.selectedAutoresIds.length === 0) {
       this.alertService.error(
         'Formulario inválido',
-        'Debes seleccionar al menos un autor'
+        'Debes seleccionar al menos un autor',
       );
       return;
     }
@@ -184,7 +179,6 @@ export class LibroFormComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
-          this.alertService.error('Error', 'Falló la subida de la imagen');
         },
       });
     } else {

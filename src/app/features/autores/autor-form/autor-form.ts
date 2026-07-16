@@ -54,10 +54,6 @@ export class AutorFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar autor', err);
-        this.alertService.error(
-          'Error',
-          'No se pudo cargar la información del autor'
-        );
       },
     });
   }
@@ -68,13 +64,12 @@ export class AutorFormComponent implements OnInit {
         next: () => {
           this.alertService.success(
             'Actualizado',
-            'Autor actualizado correctamente'
+            'Autor actualizado correctamente',
           );
           this.router.navigate(['/autores']);
         },
         error: (err) => {
           console.error('Error al actualizar:', err);
-          this.alertService.error('Error', 'Error al actualizar el autor.');
         },
       });
     } else {
@@ -90,10 +85,6 @@ export class AutorFormComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error al crear:', err);
-          this.alertService.error(
-            'Error',
-            'Error al crear el autor. Revisa la consola.'
-          );
         },
       });
     }
@@ -104,7 +95,7 @@ export class AutorFormComponent implements OnInit {
     if (!this.autor.nombre.trim()) {
       this.alertService.error(
         'Formulario inválido',
-        'El nombre del autor es obligatorio'
+        'El nombre del autor es obligatorio',
       );
       return;
     }
@@ -119,7 +110,6 @@ export class AutorFormComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
-          this.alertService.error('Error', 'Falló la subida de la imagen');
         },
       });
     } else {

@@ -30,7 +30,6 @@ export class AutorListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar autores:', err);
-        this.alertService.error('Error', 'No se pudieron cargar los autores');
       },
     });
   }
@@ -39,7 +38,7 @@ export class AutorListComponent implements OnInit {
   async eliminarAutor(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Estás seguro?',
-      'Esta acción eliminará el autor permanentemente.'
+      'Esta acción eliminará el autor permanentemente.',
     );
 
     if (confirmado) {
@@ -48,15 +47,11 @@ export class AutorListComponent implements OnInit {
           this.cargarAutores();
           this.alertService.success(
             'Eliminado',
-            'El autor ha sido eliminado correctamente.'
+            'El autor ha sido eliminado correctamente.',
           );
         },
         error: (err) => {
           console.error('Error al eliminar:', err);
-          this.alertService.error(
-            'Error',
-            'No se pudo eliminar el autor (quizás tiene libros asociados).'
-          );
         },
       });
     }

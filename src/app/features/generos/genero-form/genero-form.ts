@@ -45,7 +45,6 @@ export class GeneroFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar género', err);
-        this.alertService.error('Error', 'No se pudo cargar el género');
       },
     });
   }
@@ -55,7 +54,7 @@ export class GeneroFormComponent implements OnInit {
     if (!this.genero.nombre.trim()) {
       this.alertService.error(
         'Formulario inválido',
-        'El nombre del género es obligatorio'
+        'El nombre del género es obligatorio',
       );
       return;
     }
@@ -66,13 +65,12 @@ export class GeneroFormComponent implements OnInit {
         next: () => {
           this.alertService.success(
             'Actualizado',
-            'Género actualizado correctamente'
+            'Género actualizado correctamente',
           );
           this.router.navigate(['/generos']);
         },
         error: (err) => {
           console.error('Error al actualizar:', err);
-          this.alertService.error('Error', 'Error al actualizar el género.');
         },
       });
     } else {
@@ -88,7 +86,6 @@ export class GeneroFormComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error al crear:', err);
-          this.alertService.error('Error', 'Error al crear el género.');
         },
       });
     }

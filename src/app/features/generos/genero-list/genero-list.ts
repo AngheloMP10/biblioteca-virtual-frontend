@@ -31,7 +31,6 @@ export class GeneroListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar géneros:', err);
-        this.alertService.error('Error', 'No se pudieron cargar los géneros');
       },
     });
   }
@@ -40,7 +39,7 @@ export class GeneroListComponent implements OnInit {
   async eliminarGenero(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Estás seguro?',
-      'Esta acción eliminará el género permanentemente.'
+      'Esta acción eliminará el género permanentemente.',
     );
 
     if (confirmado) {
@@ -50,16 +49,11 @@ export class GeneroListComponent implements OnInit {
           this.cargarGeneros();
           this.alertService.success(
             'Eliminado',
-            'Género eliminado correctamente'
+            'Género eliminado correctamente',
           );
         },
         error: (err) => {
           console.error('Error al eliminar:', err);
-          // Advertencia
-          this.alertService.error(
-            'Error',
-            'No se pudo eliminar el género. Es probable que existan libros asociados a él.'
-          );
         },
       });
     }

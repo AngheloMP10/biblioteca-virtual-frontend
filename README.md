@@ -1,16 +1,6 @@
 # Biblioteca Virtual - Frontend
 
-Frontend del sistema **Biblioteca Virtual**, una aplicación web desarrollada con Angular para la gestión de préstamos bibliotecarios, consulta de catálogo y administración del sistema según roles de usuario.
-
-La interfaz permite a los usuarios consultar libros, solicitar préstamos y gestionar su cuenta, mientras que bibliotecarios y administradores acceden a módulos de gestión y control operativo.
-
----
-
-## Autor
-
-**Anghelo M. P.**
-Estudiante de Ingeniería de Software
-Universidad Tecnológica del Perú
+Frontend del sistema **Biblioteca Virtual**, desarrollado con **Angular 20** como una Single Page Application (SPA). La aplicación permite gestionar préstamos bibliotecarios, consultar el catálogo de libros y administrar el sistema mediante una interfaz moderna, responsiva y segura.
 
 ---
 
@@ -19,78 +9,94 @@ Universidad Tecnológica del Perú
 - Angular 20
 - TypeScript
 - Bootstrap
+- RxJS
 - Nginx
 - Docker
+- GitHub Actions
 
 ---
 
-## Funcionalidades principales
+## Funcionalidades
 
-- Landing page informativa
-- Registro e inicio de sesión
-- Autenticación con JWT
-- Verificación en dos pasos (2FA)
-- Catálogo de libros con buscador
-- Solicitud y seguimiento de préstamos
-- Gestión administrativa por roles
-- Dashboard con métricas
+- Inicio de sesión y registro de usuarios.
+- Autenticación mediante JWT.
+- Autenticación en dos factores (2FA).
+- Catálogo de libros con búsqueda y paginación.
+- Gestión de libros, autores y géneros.
+- Gestión de préstamos.
+- Dashboard administrativo.
+- Notificaciones en tiempo real mediante WebSocket.
+- Consumo de API REST mediante HttpClient.
+- Protección de rutas mediante Guards e Interceptors.
 
 ---
 
-## Roles soportados
+## Roles del sistema
 
-El sistema cuenta con tres roles principales:
+El sistema implementa control de acceso basado en roles:
 
-- **USER** → Consulta catálogo y solicita préstamos
-- **BIBLIOTECARIO** → Gestiona libros y préstamos
-- **ADMIN** → Acceso total, dashboard y administración general
+- **USER:** Consulta el catálogo y solicita préstamos.
+- **BIBLIOTECARIO:** Gestiona libros, autores, géneros y préstamos.
+- **ADMIN:** Acceso completo al sistema y al dashboard administrativo.
+
+---
+
+## Arquitectura
+
+El frontend está organizado siguiendo una arquitectura modular basada en componentes.
+
+- **Features:** Módulos funcionales del sistema.
+- **Core:** Servicios, Guards, Interceptors y modelos.
+- **Shared:** Componentes reutilizables.
+- **Auth:** Autenticación y registro de usuarios.
+- **Environments:** Configuración para los distintos entornos.
 
 ---
 
 ## Requisitos
 
-Para ejecutar el proyecto puedes usar una de estas opciones:
+Para ejecutar el proyecto se requiere:
 
-### Opción 1: Docker (recomendado)
-
-- Docker
-- Docker Compose
-
-### Opción 2: Desarrollo local
+### Desarrollo local
 
 - Node.js
 - Angular CLI
 
+### Docker
+
+- Docker
+- Docker Compose
+
 ---
 
-## Instalación y ejecución
+# Instalación y ejecución
 
-Clonar el repositorio:
+## Clonar el repositorio
 
 ```bash
 git clone https://github.com/AngheloMP10/biblioteca-virtual-frontend.git
-cd Proyecto-FullStack-G2
+cd biblioteca-virtual-frontend
+```
+
+---
+
+## Instalación de dependencias
+
+```bash
+npm install
 ```
 
 ---
 
 ## Ejecución en desarrollo
 
-Instalar dependencias:
-
-```bash
-npm install
-```
-
-Iniciar Angular:
-
 ```bash
 ng serve
 ```
 
-Abrir en el navegador:
+La aplicación estará disponible en:
 
-```bash
+```text
 http://localhost:4200
 ```
 
@@ -99,21 +105,54 @@ http://localhost:4200
 ## Ejecución con Docker
 
 ```bash
-docker build -t biblioteca-front .
-docker run -p 4200:80 biblioteca-front
+docker build -t biblioteca-virtual-frontend .
+docker run -p 4200:80 biblioteca-virtual-frontend
 ```
 
 ---
 
-## Estado del proyecto
+## Configuración
 
-Proyecto en desarrollo activo.
-La aplicación continuará evolucionando con nuevas funcionalidades, mejoras de experiencia de usuario y optimizaciones de rendimiento.
+La aplicación utiliza archivos de entorno para configurar la URL del backend en los diferentes ambientes:
+
+- `environment.ts`
+- `environment.prod.ts`
+- `environment.netlify.ts`
+
+---
+
+## Despliegue
+
+El proyecto se encuentra desplegado mediante:
+
+- Frontend: Netlify
+- Backend: Render
+- Base de datos: Supabase PostgreSQL
+- Docker
+- GitHub Actions para CI/CD
+
+```text
+https://bucolic-horse-0d3efe.netlify.app/
+```
+
+---
+
+## Autor
+
+**Anghelo Mendoza Prado**
+
+Estudiante de Ingeniería de Software  
+Universidad Tecnológica del Perú
+
+---
+
+## Licencia
+
+Proyecto desarrollado con fines académicos.
 
 ---
 
 # Estructura del proyecto
-
 
 ```
 biblioteca-front
@@ -161,7 +200,8 @@ biblioteca-front
 │  │  │  │  └─ staff-guard.ts
 │  │  │  ├─ interceptors
 │  │  │  │  ├─ auth-interceptor.spec.ts
-│  │  │  │  └─ auth-interceptor.ts
+│  │  │  │  ├─ auth-interceptor.ts
+│  │  │  │  └─ error-interceptor.ts
 │  │  │  ├─ models
 │  │  │  │  ├─ auth.interface.ts
 │  │  │  │  ├─ autor.ts

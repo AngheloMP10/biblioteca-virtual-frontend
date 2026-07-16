@@ -20,6 +20,7 @@ import {
 } from '@angular/common/http';
 
 import { authInterceptor } from './core/interceptors/auth-interceptor';
+import { errorInterceptor } from './core/interceptors/error-interceptor';
 import { WebSocketService } from './core/services/websocket.service';
 
 const initializeWebSocket = () => {
@@ -34,7 +35,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     // Registrar HttpClient + Interceptor
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor, errorInterceptor]),
+    ),
 
     // ng2-charts
     provideCharts(withDefaultRegisterables()),

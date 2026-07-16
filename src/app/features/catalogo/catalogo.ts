@@ -62,7 +62,6 @@ export class CatalogoComponent implements OnInit {
         error: (err) => {
           console.error(err);
           this.loading = false;
-          this.alertService.error('Error', 'No se pudieron cargar los libros');
         },
       });
   }
@@ -143,10 +142,7 @@ export class CatalogoComponent implements OnInit {
       },
 
       error: (err) => {
-        this.alertService.error(
-          'Error',
-          err?.error || 'Error al solicitar el préstamo',
-        );
+        console.error('Error al solicitar préstamo:', err);
       },
 
       complete: () => {

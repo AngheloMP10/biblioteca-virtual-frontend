@@ -31,7 +31,6 @@ export class LibroListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar libros:', err);
-        this.alertService.error('Error', 'No se pudieron cargar los libros');
       },
     });
   }
@@ -39,7 +38,7 @@ export class LibroListComponent implements OnInit {
   async eliminarLibro(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Estás seguro?',
-      'Esta acción eliminará el libro permanentemente.'
+      'Esta acción eliminará el libro permanentemente.',
     );
 
     if (!confirmado) {
@@ -50,16 +49,12 @@ export class LibroListComponent implements OnInit {
       next: () => {
         this.alertService.success(
           'Eliminado',
-          'El libro ha sido eliminado correctamente.'
+          'El libro ha sido eliminado correctamente.',
         );
         this.cargarLibros();
       },
       error: (err) => {
         console.error('Error al eliminar:', err);
-        this.alertService.error(
-          'Error',
-          'No se pudo eliminar el libro (quizás tiene autores asociados).'
-        );
       },
     });
   }

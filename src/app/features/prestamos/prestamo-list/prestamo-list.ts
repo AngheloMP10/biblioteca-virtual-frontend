@@ -45,7 +45,6 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.error('Error al cargar préstamos', err);
-        this.alertService.error('Error', 'No se pudieron cargar los préstamos');
       },
     });
   }
@@ -67,7 +66,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
     if (!prestamo) {
       this.alertService.error(
         'No encontrado',
-        `No se encuentra el préstamo ID: ${id}`
+        `No se encuentra el préstamo ID: ${id}`,
       );
       this.qrInput = '';
       return;
@@ -76,7 +75,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
     if (prestamo.estado !== 'APROBADO') {
       this.alertService.error(
         'Estado incorrecto',
-        `Este préstamo está en estado ${prestamo.estado}`
+        `Este préstamo está en estado ${prestamo.estado}`,
       );
       this.qrInput = '';
       return;
@@ -88,7 +87,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
   async confirmarEntrega(id: number, libro: string, usuario: string) {
     const confirmado = await this.alertService.confirmRequest(
       'Confirmar Entrega',
-      `¿Entregar libro "${libro}" al usuario ${usuario}?`
+      `¿Entregar libro "${libro}" al usuario ${usuario}?`,
     );
 
     if (confirmado) {
@@ -96,14 +95,15 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
         next: () => {
           this.alertService.success(
             'Entregado',
-            'El libro está ahora EN PRÉSTAMO'
+            'El libro está ahora EN PRÉSTAMO',
           );
           this.qrInput = '';
           this.cargarPrestamos();
           setTimeout(() => this.qrField.nativeElement.focus());
         },
-        error: () =>
-          this.alertService.error('Error', 'No se pudo registrar la entrega'),
+        error: (err) => {
+          console.error('Error al registrar entrega:', err);
+        },
       });
     }
   }
@@ -111,7 +111,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
   async aprobar(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Aprobar préstamo?',
-      'El libro dejará de estar disponible.'
+      'El libro dejará de estar disponible.',
     );
 
     if (confirmado) {
@@ -119,12 +119,13 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
         next: () => {
           this.alertService.success(
             'Préstamo aprobado',
-            'El préstamo fue aprobado correctamente'
+            'El préstamo fue aprobado correctamente',
           );
           this.cargarPrestamos();
         },
-        error: () =>
-          this.alertService.error('Error', 'No se pudo aprobar el préstamo'),
+        error: (err) => {
+          console.error('Error al aprobar préstamo:', err);
+        },
       });
     }
   }
@@ -132,7 +133,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
   async rechazar(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Rechazar solicitud?',
-      'Esta acción rechazará la solicitud de préstamo.'
+      'Esta acción rechazará la solicitud de préstamo.',
     );
 
     if (confirmado) {
@@ -140,12 +141,13 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
         next: () => {
           this.alertService.success(
             'Solicitud rechazada',
-            'La solicitud fue rechazada correctamente'
+            'La solicitud fue rechazada correctamente',
           );
           this.cargarPrestamos();
         },
-        error: () =>
-          this.alertService.error('Error', 'No se pudo rechazar la solicitud'),
+        error: (err) => {
+          console.error('Error al rechazar solicitud:', err);
+        },
       });
     }
   }
@@ -153,7 +155,7 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
   async finalizar(id: number) {
     const confirmado = await this.alertService.confirmRequest(
       '¿Finalizar préstamo?',
-      'El libro será devuelto y el stock se recuperará.'
+      'El libro será devuelto y el stock se recuperará.',
     );
 
     if (confirmado) {
@@ -161,12 +163,13 @@ export class PrestamoListComponent implements OnInit, AfterViewInit {
         next: () => {
           this.alertService.success(
             'Préstamo finalizado',
-            'El libro fue devuelto correctamente'
+            'El libro fue devuelto correctamente',
           );
           this.cargarPrestamos();
         },
-        error: () =>
-          this.alertService.error('Error', 'No se pudo finalizar el préstamo'),
+        error: (err) => {
+          console.error('Error al finalizar préstamo:', err);
+        },
       });
     }
   }
