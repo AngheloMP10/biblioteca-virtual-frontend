@@ -1,0 +1,20 @@
+{
+    "user": {
+        "username": "user",
+        "password": "User123@",
+        "role": "ROLE_USER"
+    },
+    "admin": {
+        "username": "admin",
+        "password": "Admin123@",
+        "role": "ROLE_ADMIN"
+    },
+    "invalid": {
+        "username": "usuario_falso",
+        "password": "ClaveIncorrecta1!"
+    },
+    "otp": {
+        "valid": "123456",
+        "invalid": "000000"
+    }
+}

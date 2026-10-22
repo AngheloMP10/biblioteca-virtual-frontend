@@ -1,0 +1,136 @@
+{
+    "uno": [
+        {
+            "id": 1,
+            "fechaSolicitud": "2026-10-18",
+            "estado": "PENDIENTE",
+            "libro": {
+                "id": 4,
+                "titulo": "El Señor de los Anillos",
+                "stock": 8,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        }
+    ],
+    "dos": [
+        {
+            "id": 1,
+            "fechaSolicitud": "2026-10-16",
+            "estado": "PENDIENTE",
+            "libro": {
+                "id": 4,
+                "titulo": "El Señor de los Anillos",
+                "stock": 8,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        },
+        {
+            "id": 2,
+            "fechaSolicitud": "2026-10-17",
+            "estado": "APROBADO",
+            "libro": {
+                "id": 5,
+                "titulo": "1984",
+                "stock": 6,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        }
+    ],
+    "tres": [
+        {
+            "id": 1,
+            "fechaSolicitud": "2026-10-15",
+            "estado": "PENDIENTE",
+            "libro": {
+                "id": 4,
+                "titulo": "El Señor de los Anillos",
+                "stock": 8,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        },
+        {
+            "id": 2,
+            "fechaSolicitud": "2026-10-16",
+            "estado": "APROBADO",
+            "libro": {
+                "id": 5,
+                "titulo": "1984",
+                "stock": 6,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        },
+        {
+            "id": 3,
+            "fechaSolicitud": "2026-10-17",
+            "estado": "EN_PRESTAMO",
+            "libro": {
+                "id": 6,
+                "titulo": "Viaje al Centro de la Tierra",
+                "stock": 4,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        }
+    ],
+    "cerrados": [
+        {
+            "id": 1,
+            "fechaSolicitud": "2026-10-10",
+            "estado": "FINALIZADO",
+            "libro": {
+                "id": 4,
+                "titulo": "El Señor de los Anillos",
+                "stock": 8,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        },
+        {
+            "id": 2,
+            "fechaSolicitud": "2026-10-11",
+            "estado": "RECHAZADO",
+            "libro": {
+                "id": 5,
+                "titulo": "1984",
+                "stock": 6,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        },
+        {
+            "id": 3,
+            "fechaSolicitud": "2026-10-17",
+            "estado": "APROBADO",
+            "libro": {
+                "id": 6,
+                "titulo": "Viaje al Centro de la Tierra",
+                "stock": 4,
+                "disponible": true
+            },
+            "usuario": {
+                "username": "user"
+            }
+        }
+    ]
+}
