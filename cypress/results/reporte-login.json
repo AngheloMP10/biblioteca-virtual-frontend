@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-10-22T00:26:02.402Z",
+    "end": "2026-10-22T00:26:32.986Z",
+    "duration": 30584,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "7807b04c-49be-4b55-a082-3bf5934776d8",
+      "title": "",
+      "fullFile": "cypress\\e2e\\login\\login.cy.ts",
+      "file": "cypress\\e2e\\login\\login.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+          "title": "Autenticación: Login + 2FA",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "CP-F01a: credenciales correctas + OTP válido (User) -> /catalogo",
+              "fullTitle": "Autenticación: Login + 2FA CP-F01a: credenciales correctas + OTP válido (User) -> /catalogo",
+              "timedOut": null,
+              "duration": 9288,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${API}/auth/login`, {\n    statusCode: 200,\n    headers: CORS,\n    body: auth.requires2FA,\n}).as('login');\ncy.intercept('POST', `${API}/auth/verify-2fa`, {\n    statusCode: 200,\n    headers: CORS,\n    body: { ...auth.sessionUser, token: (0,_support_jwt__WEBPACK_IMPORTED_MODULE_0__.fakeJwt)('user', 'ROLE_USER') },\n}).as('verify2fa');\ncy.visit('/auth/login');\nfillAndSubmit(users.user.username, users.user.password);\ncy.wait('@login').its('request.body').should('deep.equal', {\n    username: users.user.username,\n    password: users.user.password,\n});\n// Misma vista, cambia el estado a OTP\ncy.get('[data-cy=login-title]').should('contain.text', 'Verificación 2FA');\ncy.get('[data-cy=otp-input]').type(users.otp.valid);\ncy.get('[data-cy=otp-submit]').click();\n// El front envía code como string; el backend lo convierte a int\ncy.wait('@verify2fa').its('request.body').should('deep.equal', {\n    tempToken: auth.requires2FA.tempToken,\n    code: users.otp.valid,\n});\ncy.location('pathname').should('eq', '/catalogo');\nassertSession('user', 'ROLE_USER');\ncy.screenshot('CP-F01a_login_2fa_user_catalogo');",
+              "err": {},
+              "uuid": "0da5c5f7-a94a-4622-8d61-0c5420ad5be5",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F01b: credenciales correctas + OTP válido (Admin) -> /libros",
+              "fullTitle": "Autenticación: Login + 2FA CP-F01b: credenciales correctas + OTP válido (Admin) -> /libros",
+              "timedOut": null,
+              "duration": 4695,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${API}/auth/login`, {\n    statusCode: 200,\n    headers: CORS,\n    body: auth.requires2FA,\n}).as('login');\ncy.intercept('POST', `${API}/auth/verify-2fa`, {\n    statusCode: 200,\n    headers: CORS,\n    body: { ...auth.sessionAdmin, token: (0,_support_jwt__WEBPACK_IMPORTED_MODULE_0__.fakeJwt)('admin', 'ROLE_ADMIN') },\n}).as('verify2fa');\ncy.visit('/auth/login');\nfillAndSubmit(users.admin.username, users.admin.password);\ncy.wait('@login');\ncy.get('[data-cy=otp-input]').type(users.otp.valid);\ncy.get('[data-cy=otp-submit]').click();\ncy.wait('@verify2fa');\ncy.location('pathname').should('eq', '/libros');\nassertSession('admin', 'ROLE_ADMIN');\ncy.screenshot('CP-F01b_login_2fa_admin_libros');",
+              "err": {},
+              "uuid": "4e8c3fd5-2c07-4264-82e6-a40785ef18d5",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F01c: login sin 2FA activado -> /catalogo directo",
+              "fullTitle": "Autenticación: Login + 2FA CP-F01c: login sin 2FA activado -> /catalogo directo",
+              "timedOut": null,
+              "duration": 2175,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${API}/auth/login`, {\n    statusCode: 200,\n    headers: CORS,\n    body: { ...auth.sessionUser, token: (0,_support_jwt__WEBPACK_IMPORTED_MODULE_0__.fakeJwt)('user', 'ROLE_USER') },\n}).as('login');\ncy.visit('/auth/login');\nfillAndSubmit(users.user.username, users.user.password);\ncy.wait('@login');\ncy.get('[data-cy=otp-input]').should('not.exist');\ncy.location('pathname').should('eq', '/catalogo');\nassertSession('user', 'ROLE_USER');",
+              "err": {},
+              "uuid": "cbcba75b-856e-497d-8394-fff032f81296",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F02: credenciales correctas + OTP inválido -> error y sigue en 2FA",
+              "fullTitle": "Autenticación: Login + 2FA CP-F02: credenciales correctas + OTP inválido -> error y sigue en 2FA",
+              "timedOut": null,
+              "duration": 4121,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${API}/auth/login`, {\n    statusCode: 200,\n    headers: CORS,\n    body: auth.requires2FA,\n}).as('login');\ncy.intercept('POST', `${API}/auth/verify-2fa`, {\n    statusCode: 401,\n    headers: CORS,\n    body: auth.errors.badOtp,\n}).as('verify2fa');\ncy.visit('/auth/login');\nfillAndSubmit(users.user.username, users.user.password);\ncy.wait('@login');\ncy.get('[data-cy=otp-input]').type(users.otp.invalid);\ncy.get('[data-cy=otp-submit]').click();\ncy.wait('@verify2fa');\ncy.get('[data-cy=login-error]').should('contain.text', 'Código inválido');\ncy.get('[data-cy=login-title]').should('contain.text', 'Verificación 2FA');\ncy.get('[data-cy=otp-input]').should('be.visible');\ncy.location('pathname').should('eq', '/auth/login');\ncy.window()\n    .its('localStorage')\n    .invoke('getItem', 'auth-token')\n    .should('be.null');\ncy.screenshot('CP-F02_otp_invalido');",
+              "err": {},
+              "uuid": "8ac10c3a-5867-4deb-9e70-446b0bbb1ade",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F03: credenciales incorrectas -> mensaje genérico",
+              "fullTitle": "Autenticación: Login + 2FA CP-F03: credenciales incorrectas -> mensaje genérico",
+              "timedOut": null,
+              "duration": 4340,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${API}/auth/login`, {\n    statusCode: 401,\n    headers: CORS,\n    body: auth.errors.badCredentials,\n}).as('login');\ncy.visit('/auth/login');\nfillAndSubmit(users.invalid.username, users.invalid.password);\ncy.wait('@login');\n// La UI no distingue si falló usuario o contraseña\ncy.get('[data-cy=login-error]').should('contain.text', 'Usuario o contraseña incorrectos');\ncy.get('[data-cy=login-title]').should('contain.text', 'Iniciar Sesión');\ncy.location('pathname').should('eq', '/auth/login');\ncy.window()\n    .its('localStorage')\n    .invoke('getItem', 'auth-token')\n    .should('be.null');\ncy.screenshot('CP-F03_credenciales_invalidas');",
+              "err": {},
+              "uuid": "85fd8c42-9c84-4f46-af5b-4e76432e03c2",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F04: campos vacíos -> submit deshabilitado y validaciones visibles",
+              "fullTitle": "Autenticación: Login + 2FA CP-F04: campos vacíos -> submit deshabilitado y validaciones visibles",
+              "timedOut": null,
+              "duration": 5179,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/auth/login');\ncy.get('[data-cy=login-submit]').should('be.disabled');\n// Los mensajes solo aparecen cuando el campo fue \"touched\" (focus + blur)\ncy.get('[data-cy=login-username]').focus().blur();\ncy.get('[data-cy=login-password]').focus().blur();\ncy.get('[data-cy=username-error]')\n    .should('be.visible')\n    .and('contain.text', 'El usuario es requerido');\ncy.get('[data-cy=password-error]')\n    .should('be.visible')\n    .and('contain.text', 'La contraseña es requerida');\n// Con un solo campo lleno sigue deshabilitado\ncy.get('[data-cy=login-username]').type(users.user.username);\ncy.get('[data-cy=login-submit]').should('be.disabled');\n// Con ambos campos se habilita\ncy.get('[data-cy=login-password]').type(users.user.password, {\n    log: false,\n});\ncy.get('[data-cy=login-submit]').should('be.enabled');\ncy.screenshot('CP-F04_campos_vacios');",
+              "err": {},
+              "uuid": "8ac4b5db-952b-48ef-a067-7e7a35e2b65e",
+              "parentUUID": "7290c55f-59c2-4db9-b8b0-ed93b65262c9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "0da5c5f7-a94a-4622-8d61-0c5420ad5be5",
+            "4e8c3fd5-2c07-4264-82e6-a40785ef18d5",
+            "cbcba75b-856e-497d-8394-fff032f81296",
+            "8ac10c3a-5867-4deb-9e70-446b0bbb1ade",
+            "85fd8c42-9c84-4f46-af5b-4e76432e03c2",
+            "8ac4b5db-952b-48ef-a067-7e7a35e2b65e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 29798,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reporte-login",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "reportFilename": "reporte-login",
+        "overwrite": true,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
