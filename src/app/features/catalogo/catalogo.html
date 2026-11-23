@@ -7,10 +7,16 @@
       <strong>Hola, {{ usuarioNombre }}</strong>.
       <span *ngIf="cuposDisponibles > 0">
         Puedes solicitar
-        <span class="badge bg-primary fs-6">{{ cuposDisponibles }}</span>
+        <span class="badge bg-primary fs-6" data-cy="cupos-disponibles"
+          >{{ cuposDisponibles }}</span
+        >
         libros más.
       </span>
-      <span *ngIf="cuposDisponibles === 0" class="text-danger fw-bold">
+      <span
+        *ngIf="cuposDisponibles === 0"
+        class="text-danger fw-bold"
+        data-cy="limite-alcanzado"
+      >
         🚫 Has alcanzado tu límite de préstamos.
       </span>
     </div>
@@ -54,7 +60,10 @@
       class="col animate__animated animate__fadeInUp animate__faster"
       *ngFor="let libro of libros"
     >
-      <div class="card catalog-card h-100 shadow-sm border-0">
+      <div
+        class="card catalog-card h-100 shadow-sm border-0"
+        data-cy="libro-card"
+      >
         <div class="text-center bg-light p-3">
           <img
             *ngIf="libro.portada"
@@ -81,6 +90,7 @@
 
             <span
               class="badge"
+              data-cy="libro-stock"
               [ngClass]="libro.stock > 0 ? 'bg-success' : 'bg-danger'"
             >
               {{ libro.stock > 0 ? libro.stock + ' Disponibles' : 'Agotado' }}
@@ -106,6 +116,7 @@
         <div class="card-footer bg-white border-0 pb-3">
           <button
             class="btn btn-outline-primary w-100"
+            data-cy="btn-solicitar"
             [disabled]="
               libro.stock === 0 ||
               cuposDisponibles === 0 ||
