@@ -1,0 +1,62 @@
+{
+    "content": [
+        {
+            "id": 1,
+            "titulo": "Cien Años de Soledad",
+            "anioPublicacion": 1967,
+            "stock": 5,
+            "disponible": true,
+            "genero": {
+                "id": 1,
+                "nombre": "Realismo Mágico"
+            },
+            "autores": [
+                {
+                    "id": 1,
+                    "nombre": "Gabriel García Márquez"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "titulo": "El Principito",
+            "anioPublicacion": 1943,
+            "stock": 1,
+            "disponible": true,
+            "genero": {
+                "id": 8,
+                "nombre": "Aventura"
+            },
+            "autores": [
+                {
+                    "id": 9,
+                    "nombre": "Antoine de Saint-Exupéry"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "titulo": "La Casa de los Espíritus",
+            "anioPublicacion": 1982,
+            "stock": 0,
+            "disponible": false,
+            "genero": {
+                "id": 1,
+                "nombre": "Realismo Mágico"
+            },
+            "autores": [
+                {
+                    "id": 3,
+                    "nombre": "Isabel Allende"
+                }
+            ]
+        }
+    ],
+    "totalPages": 1,
+    "totalElements": 3,
+    "size": 6,
+    "number": 0,
+    "first": true,
+    "last": true,
+    "empty": false
+}

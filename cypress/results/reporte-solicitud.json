@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-10-21T23:54:52.119Z",
+    "end": "2026-10-21T23:55:09.183Z",
+    "duration": 17064,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "9d2e8839-f4ba-4b04-b6d2-0dcf19f43599",
+      "title": "",
+      "fullFile": "cypress\\e2e\\prestamos\\solicitud.cy.ts",
+      "file": "cypress\\e2e\\prestamos\\solicitud.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a7c6b829-cf06-4075-9954-82055c3a1464",
+          "title": "Préstamos: Solicitud desde el catálogo",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "CP-F05: 1 préstamo activo + libro con stock 5 -> solicitud exitosa",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F05: 1 préstamo activo + libro con stock 5 -> solicitud exitosa",
+              "timedOut": null,
+              "duration": 7255,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.uno);\ncuposDebeSer('2');\ncard('Cien Años de Soledad').within(() => {\n    cy.get('[data-cy=btn-solicitar]').should('be.enabled').click();\n});\n// Modal de confirmación (SweetAlert2)\ncy.get('.swal2-popup')\n    .should('be.visible')\n    .and('contain.text', 'Confirmar préstamo')\n    .and('contain.text', 'Cien Años de Soledad');\ncy.get('.swal2-confirm').click();\ncy.wait('@solicitar')\n    .its('request.url')\n    .should('match', /\\/prestamos\\/solicitar\\/1$/);\n// Modal de éxito\ncy.get('.swal2-popup')\n    .should('be.visible')\n    .and('contain.text', 'Solicitud enviada');\ncy.screenshot('CP-F05_solicitud_exitosa');\ncy.get('.swal2-confirm').click();\n// El cupo baja de 2 a 1\ncuposDebeSer('1');",
+              "err": {},
+              "uuid": "20c89859-2f8e-4c49-998b-c2324daf1460",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F05b: cancelar la confirmación no envía la solicitud",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F05b: cancelar la confirmación no envía la solicitud",
+              "timedOut": null,
+              "duration": 2138,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.uno);\ncard('Cien Años de Soledad').within(() => {\n    cy.get('[data-cy=btn-solicitar]').click();\n});\ncy.get('.swal2-popup').should('contain.text', 'Confirmar préstamo');\ncy.get('.swal2-cancel').click();\ncy.get('@solicitar.all').should('have.length', 0);\ncuposDebeSer('2');",
+              "err": {},
+              "uuid": "b61a956c-e9d7-4cb2-8ee0-d084a8af29a4",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F06: 3 préstamos activos -> límite alcanzado y botones bloqueados",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F06: 3 préstamos activos -> límite alcanzado y botones bloqueados",
+              "timedOut": null,
+              "duration": 2669,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.tres);\ncy.get('[data-cy=limite-alcanzado]')\n    .should('be.visible')\n    .and('contain.text', 'límite de préstamos');\ncy.get('[data-cy=cupos-disponibles]').should('not.exist');\ncy.get('[data-cy=btn-solicitar]')\n    .should('have.length.greaterThan', 0)\n    .each(($btn) => cy.wrap($btn).should('be.disabled'));\ncy.get('@solicitar.all').should('have.length', 0);\ncy.screenshot('CP-F06_limite_alcanzado');",
+              "err": {},
+              "uuid": "ff600f7c-6de6-4d64-8c41-61261d088c33",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F06b: 2 préstamos activos (límite - 1) -> aún puede solicitar",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F06b: 2 préstamos activos (límite - 1) -> aún puede solicitar",
+              "timedOut": null,
+              "duration": 1136,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.dos);\ncuposDebeSer('1');\ncy.get('[data-cy=limite-alcanzado]').should('not.exist');\ncard('Cien Años de Soledad').within(() => {\n    cy.get('[data-cy=btn-solicitar]').should('be.enabled');\n});",
+              "err": {},
+              "uuid": "e30aa564-126b-4a4e-8746-45e61f416735",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F06c: FINALIZADO y RECHAZADO no cuentan como activos",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F06c: FINALIZADO y RECHAZADO no cuentan como activos",
+              "timedOut": null,
+              "duration": 949,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.cerrados); // 1 activo + 1 finalizado + 1 rechazado\ncuposDebeSer('2');",
+              "err": {},
+              "uuid": "e26385c6-0af1-466f-b675-19bf55d68814",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "CP-F07: libro con stock 0 -> \"Agotado\" y botón bloqueado",
+              "fullTitle": "Préstamos: Solicitud desde el catálogo CP-F07: libro con stock 0 -> \"Agotado\" y botón bloqueado",
+              "timedOut": null,
+              "duration": 2358,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "abrirCatalogo(prestamos.uno);\ncard('La Casa de los Espíritus').within(() => {\n    cy.get('[data-cy=libro-stock]').should('contain.text', 'Agotado');\n    cy.get('[data-cy=btn-solicitar]')\n        .should('be.disabled')\n        .and('contain.text', 'Sin Stock');\n});\n// Contraste: libro con stock disponible\ncard('Cien Años de Soledad').within(() => {\n    cy.get('[data-cy=libro-stock]').should('contain.text', '5 Disponibles');\n    cy.get('[data-cy=btn-solicitar]')\n        .should('be.enabled')\n        .and('contain.text', 'Solicitar Préstamo');\n});\ncy.screenshot('CP-F07_libro_agotado');",
+              "err": {},
+              "uuid": "f8cf5f93-2bbc-4839-a3c2-d0867114e1f3",
+              "parentUUID": "a7c6b829-cf06-4075-9954-82055c3a1464",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "20c89859-2f8e-4c49-998b-c2324daf1460",
+            "b61a956c-e9d7-4cb2-8ee0-d084a8af29a4",
+            "ff600f7c-6de6-4d64-8c41-61261d088c33",
+            "e30aa564-126b-4a4e-8746-45e61f416735",
+            "e26385c6-0af1-466f-b675-19bf55d68814",
+            "f8cf5f93-2bbc-4839-a3c2-d0867114e1f3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 16505,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "reporte-solicitud",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "reportFilename": "reporte-solicitud",
+        "overwrite": true,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

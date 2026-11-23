@@ -1,0 +1,132 @@
+name: Frontend CI - Cypress por niveles
+
+# Las suites usan cy.intercept (API simulada), no necesitan backend.
+# Smoke (cada PR) -> login
+# Regression (push y nightly 02:00 Lima) -> login + solicitud de préstamo
+
+on:
+  pull_request:
+    branches: ["main", "develop"]
+  push:
+    branches: ["main", "develop"]
+  schedule:
+    - cron: "0 7 * * *" # 02:00 Lima
+  workflow_dispatch:
+
+env:
+  NG_CLI_ANALYTICS: "false"
+
+jobs:
+  smoke:
+    name: Smoke Cypress
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar compilacion de Angular
+        run: npm run build
+
+      - name: Iniciar servidor Angular
+        run: |
+          nohup npm start -- --host 0.0.0.0 --port 4200 > angular.log 2>&1 < /dev/null &
+          echo $! > angular.pid
+
+      - name: Esperar servidor Angular
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://127.0.0.1:4200/ > /dev/null; then
+              echo "Angular esta respondiendo correctamente"
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Angular no respondio. Logs del servidor:"
+          cat angular.log
+          exit 1
+
+      - name: Cypress smoke
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          command: npm run cy:smoke
+
+      - name: Subir evidencias
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-smoke
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/results
+            angular.log
+          if-no-files-found: ignore
+
+  regression:
+    name: Full Regression Cypress
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar compilacion de Angular
+        run: npm run build
+
+      - name: Iniciar servidor Angular
+        run: |
+          nohup npm start -- --host 0.0.0.0 --port 4200 > angular.log 2>&1 < /dev/null &
+          echo $! > angular.pid
+
+      - name: Esperar servidor Angular
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://127.0.0.1:4200/ > /dev/null; then
+              echo "Angular esta respondiendo correctamente"
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Angular no respondio. Logs del servidor:"
+          cat angular.log
+          exit 1
+
+      - name: Cypress regression
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          command: npm run cy:regression
+
+      - name: Subir evidencias
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-regression
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/results
+            angular.log
+          if-no-files-found: ignore

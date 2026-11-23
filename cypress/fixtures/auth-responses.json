@@ -1,0 +1,32 @@
+{
+    "requires2FA": {
+        "requires2FA": true,
+        "tempToken": "TEMP_TOKEN_FAKE"
+    },
+    "sessionUser": {
+        "username": "user",
+        "role": "ROLE_USER",
+        "tipoToken": "Bearer",
+        "requires2FA": false
+    },
+    "sessionAdmin": {
+        "username": "admin",
+        "role": "ROLE_ADMIN",
+        "tipoToken": "Bearer",
+        "requires2FA": false
+    },
+    "errors": {
+        "badCredentials": "Credenciales inválidas",
+        "badOtp": "Código 2FA inválido"
+    },
+    "emptyPage": {
+        "content": [],
+        "totalPages": 0,
+        "totalElements": 0,
+        "size": 10,
+        "number": 0,
+        "first": true,
+        "last": true,
+        "empty": true
+    }
+}
