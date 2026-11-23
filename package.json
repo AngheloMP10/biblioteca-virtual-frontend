@@ -9,7 +9,9 @@
     "test": "ng test",
     "build:netlify": "ng build --configuration=netlify",
     "e2e:open": "cypress open",
-    "e2e:run": "cypress run"
+    "e2e:run": "cypress run",
+    "cy:smoke": "cypress run --spec cypress/e2e/login/login.cy.ts",
+    "cy:regression": "cypress run"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,85 @@
+name: Frontend CI - Cypress por niveles
+
+# Va en el repo del FRONTEND: .github/workflows/ci-frontend.yml
+# Las suites usan cy.intercept (API simulada), asi que NO necesitan el backend levantado.
+# Smoke (cada PR)                      -> npm run cy:smoke      (login)
+# Regression (push y nightly 02:00 Lima) -> npm run cy:regression (login + solicitud de prestamo)
+
+on:
+  pull_request:
+    branches: ["main", "develop"]
+  push:
+    branches: ["main", "develop"]
+  schedule:
+    - cron: "0 7 * * *" # 07:00 UTC = 02:00 en Lima (UTC-5)
+  workflow_dispatch:
+
+env:
+  NG_CLI_ANALYTICS: "false"
+
+jobs:
+  smoke:
+    name: Smoke Cypress
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Cypress smoke
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: "http://localhost:4200"
+          wait-on-timeout: 180
+          command: npm run cy:smoke
+
+      - name: Subir evidencias
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-smoke
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/results
+          if-no-files-found: ignore
+
+  regression:
+    name: Full Regression Cypress
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Cypress regression
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: "http://localhost:4200"
+          wait-on-timeout: 180
+          command: npm run cy:regression
+
+      - name: Subir evidencias
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-regression
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/results
+          if-no-files-found: ignore
