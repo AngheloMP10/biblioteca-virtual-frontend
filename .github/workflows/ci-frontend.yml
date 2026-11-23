@@ -2,8 +2,8 @@ name: Frontend CI - Cypress por niveles
 
 # Va en el repo del FRONTEND: .github/workflows/ci-frontend.yml
 # Las suites usan cy.intercept (API simulada), asi que NO necesitan el backend levantado.
-# Smoke (cada PR)                      -> npm run cy:smoke      (login)
-# Regression (push y nightly 02:00 Lima) -> npm run cy:regression (login + solicitud de prestamo)
+# Smoke (cada PR) -> npm run cy:smoke (login)
+# Regression (push y nightly 02:00 Lima) -> npm run cy:regression
 
 on:
   pull_request:
@@ -35,8 +35,8 @@ jobs:
       - name: Cypress smoke
         uses: cypress-io/github-action@v6
         with:
-          start: npm start
-          wait-on: "http://localhost:4200"
+          start: npm start -- --host 0.0.0.0
+          wait-on: "http://127.0.0.1:4200"
           wait-on-timeout: 180
           command: npm run cy:smoke
 
@@ -68,8 +68,8 @@ jobs:
       - name: Cypress regression
         uses: cypress-io/github-action@v6
         with:
-          start: npm start
-          wait-on: "http://localhost:4200"
+          start: npm start -- --host 0.0.0.0
+          wait-on: "http://127.0.0.1:4200"
           wait-on-timeout: 180
           command: npm run cy:regression
 
