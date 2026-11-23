@@ -66,11 +66,12 @@
               type="button"
               class="btn-eye"
               (click)="mostrarPassword = !mostrarPassword"
-              tabindex="-1"
+              [attr.aria-label]="mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
             >
               <!-- Ojo cerrado -->
               <svg
                 *ngIf="!mostrarPassword"
+                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -91,6 +92,7 @@
               <!-- Ojo abierto -->
               <svg
                 *ngIf="mostrarPassword"
+                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -133,21 +135,23 @@
 
         <!-- OTP STEP -->
         <div *ngIf="step === 'OTP'">
-          <p class="text-center mb-3">
+          <p class="text-center mb-3" id="otp-description">
             Ingresa el código de 6 dígitos de tu aplicación autenticadora
           </p>
 
           <div class="form-floating mb-3">
             <input
               type="text"
+              id="otpInput"
               class="form-control text-center"
               data-cy="otp-input"
               [(ngModel)]="otpCode"
               maxlength="6"
-              placeholder="Código OTP"
+              placeholder="Código de verificación"
+              aria-describedby="otp-description"
             />
 
-            <label>Código OTP</label>
+            <label for="otpInput">Código de verificación (2FA)</label>
           </div>
 
           <div class="d-grid">

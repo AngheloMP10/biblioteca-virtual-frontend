@@ -37,6 +37,7 @@
           type="text"
           class="form-control border-start-0 ps-0"
           placeholder="Buscar por título, autor o género..."
+          aria-label="Buscar libros por título o autor"
           [(ngModel)]="terminoBusqueda"
           (change)="filtrarLibros()"
         />
@@ -68,8 +69,8 @@
           <img
             *ngIf="libro.portada"
             [src]="libro.portada"
+            [alt]="'Portada del libro ' + libro.titulo"
             class="card-img-top shadow"
-            alt="Portada"
             style="max-height: 250px; width: auto; object-fit: cover"
           />
 
