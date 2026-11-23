@@ -32,6 +32,9 @@ jobs:
           node-version: "22"
           cache: npm
 
+      - name: Verificar compilacion de Angular
+        run: npm run build
+
       - name: Cypress smoke
         uses: cypress-io/github-action@v6
         with:
@@ -64,6 +67,9 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+
+      - name: Verificar compilacion de Angular
+        run: npm run build
 
       - name: Cypress regression
         uses: cypress-io/github-action@v6
