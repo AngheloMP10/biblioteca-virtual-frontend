@@ -11,7 +11,7 @@
   <div class="auth-form-container">
     <div class="card auth-card shadow p-4 animate__animated animate__fadeInUp">
       <div class="card-body">
-        <h2 class="text-center mb-4">
+        <h2 class="text-center mb-4" data-cy="login-title">
           {{ step === 'LOGIN' ? 'Iniciar Sesión' : 'Verificación 2FA' }}
         </h2>
 
@@ -20,6 +20,7 @@
           *ngIf="mensajeError"
           class="alert alert-danger text-center"
           role="alert"
+          data-cy="login-error"
         >
           {{ mensajeError }}
         </div>
@@ -35,13 +36,16 @@
             <input
               type="text"
               id="username"
+              data-cy="login-username"
               class="form-control"
               formControlName="username"
               placeholder=" "
               [ngClass]="{ 'is-invalid': loginForm.get('username')?.invalid && loginForm.get('username')?.touched }"
             />
             <label for="username">Usuario</label>
-            <div class="invalid-feedback">El usuario es requerido.</div>
+            <div class="invalid-feedback" data-cy="username-error">
+              El usuario es requerido.
+            </div>
           </div>
 
           <!-- Contraseña -->
@@ -49,6 +53,7 @@
             <input
               [type]="mostrarPassword ? 'text' : 'password'"
               id="password"
+              data-cy="login-password"
               class="form-control"
               formControlName="password"
               placeholder=" "
@@ -102,13 +107,16 @@
               </svg>
             </button>
 
-            <div class="invalid-feedback">La contraseña es requerida.</div>
+            <div class="invalid-feedback" data-cy="password-error">
+              La contraseña es requerida.
+            </div>
           </div>
 
           <div class="d-grid">
             <button
               type="submit"
               class="btn btn-primary"
+              data-cy="login-submit"
               [disabled]="loginForm.invalid || loading"
             >
               <!-- Spinner -->
@@ -133,6 +141,7 @@
             <input
               type="text"
               class="form-control text-center"
+              data-cy="otp-input"
               [(ngModel)]="otpCode"
               maxlength="6"
               placeholder="Código OTP"
@@ -144,6 +153,7 @@
           <div class="d-grid">
             <button
               class="btn btn-success"
+              data-cy="otp-submit"
               (click)="onVerifyOtp()"
               [disabled]="loading || !otpCode"
             >
