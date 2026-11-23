@@ -37,13 +37,29 @@ jobs:
       - name: Verificar compilacion de Angular
         run: npm run build
 
+      - name: Iniciar servidor Angular
+        run: |
+          nohup npm start -- --host 0.0.0.0 --port 4200 > angular.log 2>&1 < /dev/null &
+          echo $! > angular.pid
+
+      - name: Esperar servidor Angular
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://127.0.0.1:4200/ > /dev/null; then
+              echo "Angular esta respondiendo correctamente"
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Angular no respondio. Logs del servidor:"
+          cat angular.log
+          exit 1
+
       - name: Cypress smoke
         uses: cypress-io/github-action@v6
         with:
           install: false
-          start: npm start -- --host 0.0.0.0
-          wait-on: "http://127.0.0.1:4200"
-          wait-on-timeout: 180
           command: npm run cy:smoke
 
       - name: Subir evidencias
@@ -55,6 +71,7 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/results
+            angular.log
           if-no-files-found: ignore
 
   regression:
@@ -77,13 +94,29 @@ jobs:
       - name: Verificar compilacion de Angular
         run: npm run build
 
+      - name: Iniciar servidor Angular
+        run: |
+          nohup npm start -- --host 0.0.0.0 --port 4200 > angular.log 2>&1 < /dev/null &
+          echo $! > angular.pid
+
+      - name: Esperar servidor Angular
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://127.0.0.1:4200/ > /dev/null; then
+              echo "Angular esta respondiendo correctamente"
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Angular no respondio. Logs del servidor:"
+          cat angular.log
+          exit 1
+
       - name: Cypress regression
         uses: cypress-io/github-action@v6
         with:
           install: false
-          start: npm start -- --host 0.0.0.0
-          wait-on: "http://127.0.0.1:4200"
-          wait-on-timeout: 180
           command: npm run cy:regression
 
       - name: Subir evidencias
@@ -95,4 +128,5 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/results
+            angular.log
           if-no-files-found: ignore
